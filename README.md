@@ -5,6 +5,5 @@ Obe - Frontend\
 Yanping - Database\
 Michael, Eric, Siri, Kyle - Flex\
 
-
 Frontend: JS, HTML, CSS\
 Backend: Python, SQL
