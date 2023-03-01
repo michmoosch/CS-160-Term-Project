@@ -1,7 +1,7 @@
 # CS-160-Term-Project
 
 ## Due Dates:
-- [ ] Part I:		40 points; Due Date: 2/23/23
+- [x] Part I:		40 points; Due Date: 2/23/23
 - [ ] Part II: 	40 points; Due Date: 3/2/23
 - [ ] Part III: 	260 points; Due Date: 5/1 – 5/3 (Final Project Presentation – 12 min each)
 - [ ] Part IV: 	40 points; Due Date: 5/8/23 – Black box testing
