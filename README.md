@@ -18,3 +18,6 @@ Michael, Eric, Siri, Kyle - Flex\
 
 Frontend: JS, HTML, CSS\
 Backend: Python, SQL
+
+## Links:
+ Backlog: https://trello.com/b/Oe9Y57WT/cs160-team9 
