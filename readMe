@@ -1,0 +1,22 @@
+SQL User Guide
+
+sql.py - Establish connection with MySQL local database, with functions to modify and read the database structure.
+
+
+InitialDB.py - Used to initial the entities and the relations between them. Only run once to build the database.
+
+db.py - Python code used to add/delete/update the data entries with input data from the Front End.
+
+
+
+Modify the database structure:      sql.modifyDB(db, inputQuery)
+Return from the database:           sql.readDB(db, inputQuery)
+
+QUERIES:
+    Select the DATABASE to use:     sql.showDB(db, 'USE db_Name')
+    Print out the Database:         sql.showDB(db, 'SHOW DATABASES')
+    Print out the tables:           sql.showDB(db, 'SHOW TABLES')
+    Delete the table:               sql.modifyDB(db, 'DROP TABLE table_Name')
+    Print attributes from table:    sql.showDB(db, 'DESC table_Name')
+    Print records from table:       sql.showDB(db, 'SELECT * FROM User')
+
