@@ -20,5 +20,8 @@ def insertUser(userID, userPsw, firName, lstName, email):
     return '422'
 
 
-
-
+def getUser(userid):
+    try:
+        return sql.readDB(db, f"""SELECT * FROM User WHERE UserID = '{userid}'""")
+    except Error as err:
+        print(f"Error: '{err}'")
