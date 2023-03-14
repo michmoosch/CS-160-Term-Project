@@ -9,7 +9,9 @@
 - [ ] Part VI:	40 points; Scrum Meeting Participations (Individual score)
 - [ ] Part VII:	40 points; Retrospective; Team Review (Individual score)
 
-
+## Dependencies
+ ### Frontend
+ - Axios: npm i axios
 
 ## Notes:
 Obe - Frontend\
