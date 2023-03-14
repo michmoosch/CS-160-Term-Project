@@ -1,23 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+const axios = require('axios');
 
 function App() {
+  
+function register(id, pw, fname, lname, email){
+    axios
+    .get()
+    .then(async resp => {
+      return resp;
+    });
+  }
+  
+  // Insert format: userID, userPsw, firName, lstName, email
+
+
+  const id = 1234;
+  const pw = "password"
+  const fName = "Michael"
+  const lName = "Moore"
+  const email = "test@hotmail.com"
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>User info: {`userID: ${id}, userPsw: ${pw}, firName: ${fName}, lstName: ${lName}, email: ${email}`}</div>
+      <button onClick={register(id, pw, fName, lName, email)}>Test API Route</button>
     </div>
   );
 }
