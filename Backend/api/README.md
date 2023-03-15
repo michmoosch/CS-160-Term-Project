@@ -13,6 +13,7 @@ On Windows: `venv\Scripts\activate`
 On Mac `source venv\bin\activate`
 
 5. Once connected to virtual environment, install requirements: `pip install -r Backend/requirements.txt`
+5a. `pip install flask-cors`
 6. To run flask server: `flask --app Backend\api\app run`
 
 All fields and responses are in JSON format.
