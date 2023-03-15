@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;1,100;1,400;1,600&display=swap');
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    padding: 20px 60px;
+}
+
+.signup-title{
+    margin-bottom: 30px;
+}
+
+.signup-submit{
+    padding: 10px 15px;
+    background-color: rgb(88, 147, 248);
+    width: 150px;
+    border: 0;
+    border-radius: 5px;
+    margin-top: 40px;
+    align-self: center;
+}
