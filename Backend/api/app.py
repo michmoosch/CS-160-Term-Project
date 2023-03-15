@@ -9,7 +9,8 @@ db_name = 'CS160Project'   # NEED TO CHANGE
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:5Th722A7@localhost/testdb"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/testdb"
+
 db.init_app(app)
 
 
