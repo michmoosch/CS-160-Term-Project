@@ -12,6 +12,7 @@
 ## Dependencies
  ### Frontend
  - Axios: npm i axios
+ - React Router: npm i react-router react-router-dom
 
 ## Notes:
 Obe - Frontend\
