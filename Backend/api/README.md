@@ -1,7 +1,7 @@
 
 # OSD Api
 
-All fields and responses are in JSON format
+All fields and responses are in JSON format.
 
 ## Routes
 
