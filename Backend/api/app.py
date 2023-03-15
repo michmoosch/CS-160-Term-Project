@@ -2,12 +2,6 @@ from models import User, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 
-db_host = '127.0.0.1'          # Default
-db_user = 'root'               # NEED TO CHANGE
-db_psw = '5Th722A7'            # NEED TO CHANGE
-db_name = 'CS160Project'   # NEED TO CHANGE
-
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/testdb"
 
