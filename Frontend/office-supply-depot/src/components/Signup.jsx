@@ -52,38 +52,33 @@ function Signup() {
   return (
     <div>
       <h1 className="signup-title">Create your Account</h1>
-      <img src={require("../images/logo.png")} className="logo-image" />
+      {/* <img src={require("../images/logo.png")} className="logo-image" /> */}
       <form onSubmit={handleSubmit} className="login-container">
         <h1>Sign Up</h1>
-        <label>Last Name</label>
         <input
           type="text"
           className="input-field"
           placeholder="Last Name"
           name="lname"
         />
-        <label>First Name</label>
         <input
           type="text"
           className="input-field"
           placeholder="First Name"
           name="fname"
         />
-        <label>Email</label>
         <input
           type="email"
           className="input-field"
           placeholder="Email"
           name="email"
         />
-        <label>Password</label>
         <input
           type="password"
           className="input-field"
           placeholder="Password"
           name="password"
         />
-        <label>Confirm Password</label>
         <input
           type="password"
           className="input-field"
@@ -91,14 +86,12 @@ function Signup() {
         />
         <input
           type="submit"
-          value="create my account"
-          className="signup-submit"
+          value="Create Account"
+          className="submit-input"
         />
-        <p className="register">
+        <p className="is-registered">
           Already have an account?{" "}
-          <Link to="/login">
-            <a href="./Login.js">Log In</a>
-          </Link>
+          <Link className="login-link" to="/login">Log In</Link>
         </p>
       </form>
     </div>

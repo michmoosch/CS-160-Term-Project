@@ -11,15 +11,6 @@ body{
 }
 
 .signup-title{
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
-.signup-submit{
-    padding: 10px 15px;
-    background-color: rgb(88, 147, 248);
-    width: 150px;
-    border: 0;
-    border-radius: 5px;
-    margin-top: 40px;
-    align-self: center;
-}
