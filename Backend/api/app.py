@@ -42,3 +42,23 @@ def login():
             if check_password_hash(db_pwd, pwd):
                 return {"msg": "User successfully logged in"}
         return {"msg": "Incorrect email or password"}
+
+    
+  
+# @app.route('IN PROGRESS', methods=['POST'])     # ADD PRODUCT PAGE
+# def addProduct():
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         prodID = data['Product ID']
+#         prodName = data['Product Name']
+#         prodDescip = data['Product Description']
+#         prodUnitPrice = data['Product Unit Price']
+#         prodUnitInStock = data['Product Unit In Stock']
+#         prodUnitWeight = data['Product Unit Weight']
+#         if db.session.execute(db.select(Product).where(Product.prodID == prodID)).scalar() is None:    # check if user already exists
+#             product = Product(prodID=prodID, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight)
+#             db.session.add(product)
+#             db.session.commit()
+#             return {"msg": "Product added successfully"}
+#         else:
+#             return {"msg": "Product already exists"}
