@@ -5,6 +5,8 @@ import Signup from "./components/Signup.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home.jsx";
 
+import Addprod from "./components/Addprod.jsx";
+
 function App() {
   return (
     <div className="App">
@@ -15,6 +17,7 @@ function App() {
           </Route>
           <Route path="signup" element={<Signup />} />
           <Route path="home" element={<Home />} />
+          <Route path="addprod" element={<Addprod />} />
         </Routes>
       </BrowserRouter>
     </div>
