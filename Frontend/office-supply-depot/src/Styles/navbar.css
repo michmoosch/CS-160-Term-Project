@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.logo{
+    object-fit: contain;
+    width: 80px;
+}
+
+.nav-container{
+    display: flex;
+    flex-direction: row;
+    background-color: grey;
+    align-items: center;
+}
+
+.nav-list{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    margin-right: auto;
+}
+
+.nav-list > li > a{
+    color: black;
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+.cartIcon, .profileIcon{
+    width: 25px;
+}
+
+.cart-element, .profile-element{
+    margin-right: 25px;
+}
+
+.cart-element{
+    position: relative;
+}
+
+.number-item{
+    position: absolute;
+    font-size: 0.7em;
+    padding: 1px 6px;
+    border-radius: 50%;
+    top: -8px;
+    right: -8px;
+    background-color: rgb(230, 51, 51);
+}

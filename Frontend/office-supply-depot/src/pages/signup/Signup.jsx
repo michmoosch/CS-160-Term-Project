@@ -1,6 +1,6 @@
 import React from "react";
-import "./login.css";
-import "./signup.css";
+import "../../Styles/login.css";
+import "../../Styles/signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios, { formToJSON } from "axios";
 
