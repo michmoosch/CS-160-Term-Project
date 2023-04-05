@@ -1,0 +1,149 @@
+*{
+    box-sizing: border-box;
+  }
+  
+  html,
+  body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #ffffff;
+    font-family: 'Roboto' , sans-serifl
+  }
+  
+  .shopping-cart{
+    width: 750px;
+    height: auto;
+    margin: 5em auto;
+    background: #FFF;
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* item styling */
+  .title{
+    height: 4.00em;
+    border-bottom: 1px solid #C8C8C8;
+    padding: 1.25em 1.75em;
+    color: #5E6977;
+    font-size: 1.125em;
+    font-weight: 400;
+  }
+  .item{
+    padding: 1.25em 1.75em;
+    height: 7.5em;
+    display: flex;
+  }
+  .item:nth-child(3) {
+    border-top: 1px solid #C8C8C8;
+    border-bottom: 1px solid #C8C8C8;
+  }
+  
+  .buttons{
+    position: relative;
+    padding-top: 1.75em;
+    margin-right: 3.5em;
+  }
+  .delete-btn,
+  .like-btn{
+    display: inline-block;
+    cursor: pointer;
+  }
+  .delete-btn{
+    width: 18px;
+    height: 17px;
+    background: url("delete-btn.png") no-repeat center;
+  }
+  .save-btn{
+    position: absolute;
+    top: 9px;
+    left: 15px;
+    background: url("save-btn.png");
+    width: 60px;
+    height: 60px;
+    background-size: 2900%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+    .checkout{
+      border-radius: 8px;
+      padding: 6px;
+      font-size: 20px;
+      color: white;
+      width: 50%;
+      background-color: #4CAF50;
+      margin: auto;
+        position: absolute;
+        left: 0;
+        bottom: 50;
+         right: 0;
+        height: 40px;
+        width: 200px;
+    }
+  
+  .image{
+    margin-right: 50px;
+  }
+  .description{
+    padding-top: 10px;
+    margin-right: 60px;
+    width: 115px;
+  }
+  .description span{
+    display: block;
+    font-size: 1em;
+    color: #43484D;
+    font-weight: 400;
+  }
+  .description span:first{
+    margin-bottom: 5px;
+  }
+  
+  .description span:last{
+    font-weight: 300;
+    margin-top: 5px;
+  }
+  
+  .quantity{
+    padding-top: 20px;
+    margin-right: 60px;
+  }
+  .quantity input{
+    border: none;
+    text-align: center;
+    width: 32px;
+    font-size: 1em;
+    color: #43484D;
+    font-weight: 300;
+  }
+  button[class*=btn] {
+    width: 30px;
+    height: 30px;
+    background-color: #E1E8EE;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+  }
+  .minus-btn img{
+    margin-bottom: 3px;
+  }
+  .plus-btn img{
+    margin-top: 2px;
+  }
+  
+  button:focus,
+  input:focus{
+    outline: 0;
+  }
+  
+  .total-price{
+    width: 83px;
+    padding-top: 27px;
+    text-align: center;
+    font-size: 1em;
+    color: #43484D;
+    font-weight: 300;
+  }
+  
