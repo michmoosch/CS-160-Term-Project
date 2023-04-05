@@ -1,5 +1,4 @@
- from flask_sqlalchemy import SQLAlchemy
-
+from flask_sqlalchemy import SQLAlchemy
 
 
 db = SQLAlchemy()
@@ -21,21 +20,9 @@ class Product(db.Model):
     prodUnitInStock = db.Column(db.INT)
     prodUnitWeight = db.Column(db.DOUBLE)
 
-<<<<<<< HEAD
-# class ShoppingSession(db.Model):
-#     cartID = db.Column(db.INT, primary_key=True, nullable=False)
-#     cartUserID = db.relationship('User', backref='cartsession', lazy=True)
-#     cartTotal = db.Column(db.DOUBLE)
-
-# class CartItem(db.Model):
-#     cartItemID = db.Column(db.INT, primarary_key=True, nullable=False)
-#     sessionID = db.relationship('ShoppingSession', backref='item', lazy=True)
-#     prodID = db.relationship('Product', backref='cart', lazy=True)
-#     quantity = db.Column(db.INT)
-=======
 class ShoppingSession(db.Model):
     cartID = db.Column(db.INT, primary_key=True, nullable=False)
-    cartUserID = db.relationship('User', backref='cartsession', lazy=True)
+    cartUserID = db.relationship('User', backref='user', lazy=True)
     cartTotal = db.Column(db.DOUBLE)
 
 class CartItem(db.Model):
@@ -43,7 +30,4 @@ class CartItem(db.Model):
     sessionID = db.relationship('ShoppingSession', backref='item', lazy=True)
     prodID = db.relationship('Product', backref='cart', lazy=True)
     quantity = db.Column(db.INT)
-
-
->>>>>>> ad2560f49248d135d8d9ef9515b0639fd1330d4c
 
