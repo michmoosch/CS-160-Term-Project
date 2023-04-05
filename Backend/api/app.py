@@ -1,4 +1,4 @@
-from models import User, Product, db
+from models import User, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -153,6 +153,27 @@ def profile(uid):
 
 
 
+<<<<<<< HEAD
+
+@app.route('/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
+def addProd():
+    if request.method == 'POST':
+        data = request.get_json()
+        prodID = data['id']
+        prodName = data['name']
+        prodDescip = data['description']
+        prodUnitPrice = data['unitPrice']
+        prodUnitInStock = data['unitInStock']
+        prodUnitWeight = data['unitWeight']
+        if db.session.execute(db.select(Product).where(Product.prodID == prodID)).scalar() is None:    # check if user already exists
+            product = Product(prodID=prodID, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight)
+            db.session.add(product)
+            db.session.commit()
+            return {"msg": "Product added successfully"}
+        else:
+            return {"msg": "Product already exists"}
+
+=======
     
   
 # @app.route('IN PROGRESS', methods=['POST'])     # ADD PRODUCT PAGE
@@ -172,6 +193,7 @@ def profile(uid):
 #             return {"msg": "Product added successfully"}
 #         else:
 #             return {"msg": "Product already exists"}
+>>>>>>> ad2560f49248d135d8d9ef9515b0639fd1330d4c
 
 
 @app.route('/api/products', methods=['GET'])
