@@ -65,8 +65,8 @@ const theme = createTheme({
         paper: {
           width: DrawerWidth,          
           background: Colors.primary,
-          color: Colors.secondary,
-          borderRadius: '0px 100px 0px 0px',
+          color: Colors.white,
+          // borderRadius: '0px 100px 0px 0px',
           borderRight: `1px solid ${Colors.primary}`
         }
       }

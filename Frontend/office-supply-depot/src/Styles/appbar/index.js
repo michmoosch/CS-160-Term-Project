@@ -1,8 +1,11 @@
 import { styled } from "@mui/material/styles";
 import "@fontsource/montez";
 import { Box } from "@mui/system";
-import { List, Typography } from "@mui/material";
+import { IconButton, List, Typography } from "@mui/material";
 import { Colors } from '../theme'
+import { position } from "polished";
+import zIndex from "@mui/material/styles/zIndex";
+import { textPopUpTop } from "../../animation";
 
 // Container
 export const AppbarContainer = styled(Box)(() => ({    
@@ -42,7 +45,7 @@ export const AppbarHeader = styled("img")(({src, theme}) => ({
   },
   // padding: "4px",
   // flexGrow: 0,
-  // color: Colors.secondary
+  // color: Colors.secondary,
   // "&:hover": {
   //   animation: `${textPopUpTop} 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both`,
   // },
@@ -72,3 +75,10 @@ export const ActionIconsContainerMobile = styled(Box)(() => ({
     flexGrow: 0,
   }));
   
+  export const DrawerCloseButton= styled(IconButton)(() =>({
+    position: 'absolute',
+    top: 10,
+    left: '250px',
+    zIndex: 1999,
+
+  }));

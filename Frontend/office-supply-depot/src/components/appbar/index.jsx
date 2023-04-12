@@ -6,14 +6,13 @@ import React from 'react'
 
 function AppBar() {
 
-    const theme = useTheme();
-    // if true: Screen is mobile size / false: desktop size
-    const matches = useMediaQuery(theme.breakpoints.down('md'));    
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <>
-        {matches ? <AppbarMobile matches={matches}/> : <AppbarDesktop matches={matches}/>}
+      {matches ? <AppbarMobile matches={matches}/> : <AppbarDesktop matches={matches}/>}
     </>
-  )
+  );
 }
 
 export default AppBar

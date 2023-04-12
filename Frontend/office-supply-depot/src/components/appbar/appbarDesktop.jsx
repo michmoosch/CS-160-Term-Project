@@ -3,11 +3,15 @@ import { ActionIconsContainerDesktop, ActionIconsContainerMobile, AppbarContaine
 import { ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Actions from './actions';
+import { useUIContext } from '../../context/ui';
 
 
-function appbarDesktop({ matches }) {
+function AppbarDesktop({ matches }) {
+
+  const { setShowSearchBox } = useUIContext();
+
   return (
-        <AppbarContainer>
+    <AppbarContainer>
         <AppbarHeader src="/images/logo/logo.png"/>
         <MyList type="row">
             <ListItemText primary="Home"/>
@@ -16,7 +20,7 @@ function appbarDesktop({ matches }) {
             <ListItemText primary="Contact Us"/>
             <ListItemButton>
                 <ListItemIcon>
-                    <SearchIcon/>
+                    <SearchIcon onClick={() => setShowSearchBox(true)}/>
                 </ListItemIcon>
             </ListItemButton>
         </MyList>
@@ -25,4 +29,4 @@ function appbarDesktop({ matches }) {
   )
 }
 
-export default appbarDesktop
+export default AppbarDesktop

@@ -21,6 +21,7 @@ export default function SingleProductDesktop({ product, matches }) {
   const [ProductDetailDialog, showProductDetailDialog, closeProductDialog] =
     useDialogModal(ProductDetail);
 
+
   const [showOptions, setShowOptions] = useState(false);
 
   const handleMouseEnter = () => {
@@ -49,7 +50,8 @@ export default function SingleProductDesktop({ product, matches }) {
               </Tooltip>
             </ProductActionButton>
             <ProductActionButton onClick={() => showProductDetailDialog()}>
-              <Tooltip placement="left" title="Full view">
+                {/* might need to add this prop to the component below: title="Full view" */}
+              <Tooltip placement="left" >
                 <FitScreenIcon color="primary" />
               </Tooltip>
             </ProductActionButton>

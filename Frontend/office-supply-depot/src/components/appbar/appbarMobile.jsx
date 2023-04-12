@@ -4,18 +4,21 @@ import { AppbarContainer, AppbarHeader } from '../../Styles/appbar'
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import Actions from './actions';
+import { useUIContext } from '../../context/ui';
 
 function AppbarMobile({ matches }) {
+
+  const { setDrawerOpen, setShowSearchBox } = useUIContext();
   return (
     <AppbarContainer>
-      <IconButton>
-        <MenuIcon/>
+      <IconButton onClick={() => setDrawerOpen(true)}>
+        <MenuIcon />
       </IconButton>
       <AppbarHeader src="/images/logo/logo.png"/>
-      <IconButton>
-        <SearchIcon/>
+      <IconButton onClick={() => setShowSearchBox(true)}>
+        <SearchIcon />
       </IconButton>
-      <Actions matches={matches}/>
+      <Actions matches={matches} />
     </AppbarContainer>
   )
 }
