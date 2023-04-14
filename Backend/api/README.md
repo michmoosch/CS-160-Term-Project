@@ -16,14 +16,14 @@ On Windows: `venv\Scripts\activate`
 On Mac `source venv\bin\activate`
 
 5. Once connected to virtual environment, install requirements: `pip install -r Backend/requirements.txt`
-5a. `pip install flask-cors`
 6. To run flask server: `flask --app Backend\api\app run`
 
 All fields and responses are in JSON format.
+Parameters are URL parameters (ie. /api/products?query=name&page=1)
 
 ## Routes
 
-### POST - /register
+### POST - /api/register
 
 Creates user if given email is not already in use.
 
@@ -37,7 +37,7 @@ Creates user if given email is not already in use.
 #### Response
 * msg - A message indicating registration success
 
-### POST - /login
+### POST - /api/login
 
 Logs user in with given credentials
 
@@ -49,3 +49,51 @@ Logs user in with given credentials
 #### Response
 
 * msg - A message indicating login success
+
+### GET - /api/users
+
+Returns paginated list of users along with details about them. Default returns page 1 of all users sorted by last name ascending.
+
+#### Parameters - all optional
+
+* uid - user id number
+* email - user's email address
+* fname - user's first name
+* lname - user's last name
+* sort_by - product attribute to sort by and direction (ie. "fname+desc", "lname+asc")
+* page - page number to return
+* per_page - number of items per page
+
+#### Response
+* data - list of users with the following attributes:
+    * uid - user id number
+    * email - user's email address
+    * fname - user's first name
+    * lname - user's last name
+* msg - A message indicating search success
+
+### GET - /api/products
+
+Returns paginated list of products along with details about them. Default returns page 1 of all products sorted by name ascending.
+
+#### Parameters - all optional
+
+* search - user's search bar input
+* price_gt - lower limit for product price
+* price_lt - upper limit for product price
+* weight_gt - lower limit for product price
+* weight_lt - upper limit for product price
+* in_stock - input "True" to check for in-stock products only: omit parameter otherwise
+* sort_by - product attribute to sort by and direction (ie. "name+desc", "price+asc")
+* page - page number to return
+* per_page - number of items per page
+
+#### Response
+* data - list of products with the following attributes:
+    * prodid - product's ID number
+    * prodName - product's name
+    * prodDescip - product's description
+    * prodUnitPrice - product's price
+    * prodUnitInStock - number of this product in stock
+    * prodUnitWeight - product's weight
+* msg - A message indicating search success
