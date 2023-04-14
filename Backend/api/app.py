@@ -1,7 +1,9 @@
-from models import User, Product, db
+from models import User, Product, CartItem, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
+from sqlalchemy.orm.attributes import flag_modified
+
 
 app = Flask(__name__)
 CORS(app)
@@ -171,6 +173,63 @@ def addProd():
         else:
             return {"msg": "Product already exists"}
         
+# TODO : Frontend not connected
+@app.route('/xxx', methods=['POST'])
+def updateproduct():
+    if request.method == 'POST':
+        newData = request.get_json()
+        id = newData['id']
+        name = newData['name']
+        des = newData['descrip']
+        price = newData['unitPrice']
+        inStock = newData['unitInStock']
+        weight = newData['unitWeight']
+        if db.session.execute(db.select(Product).where(Product.prodId == id)).scalar() is not None:    # check if product exists
+            instance = Product.query().filter(Product.prodId==id)
+            data = instance.data
+            data["prodName"] = name
+            data["prodDescip"] = des
+            data["prodUnitPrice"] = price
+            data["prodUnitInStock"] = inStock
+            data["prodUnitWeight"] = weight
+            instance.data = data
+            flag_modified(instance, "data")     # Work without this line?
+            db.session.merge(instance)
+            db.session.flush()
+            db.session.commit()
+            return {"msg": "Product updated successfully."}
+        else:
+            return {"msg": "Unable to find the product with given product ID."}
+
+
+# Delete an item from database
+@app.route('/xxx', methods=['POST'])
+def delproduct():
+    if request.method == 'POST':
+        newData = request.get_json()
+        id = newData['id']
+        if db.session.execute(db.select(Product).where(Product.prodId==id)).scalar() is not None:
+            Product.query.filter(Product.prodId == id).delete()
+            db.session.commit()
+            return {"msg": "Product has been deleted"}
+        else:
+            return {"msg": "No item has found"}
+
+# Input prod ID
+@app.route('/xxx', methods=['POST'])
+def addCartItem():
+    if request.method == 'POST':
+        data = request.get_json()
+        userId = data['user']
+        productId = data['id']
+        quantity = data['quantity']
+        try:
+            cart = CartItem(uid=userId, productId=productId, quantity=quantity)
+            db.session.add(cart)
+            db.session.commit()
+            return {"msg": "Item added to Cart"}
+        except:
+            return {"msg": "Product ID does not exists"}
 
 
 @app.route('/api/products', methods=['GET'])
