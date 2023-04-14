@@ -1,4 +1,4 @@
-from models import User, db
+from models import User, Product, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -163,8 +163,8 @@ def addProd():
         prodUnitPrice = data['unitPrice']
         prodUnitInStock = data['unitInStock']
         prodUnitWeight = data['unitWeight']
-        if db.session.execute(db.select(Product).where(Product.prodid == prodID)).scalar() is None:    # check if user already exists
-            product = Product(prodid=prodID, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight)
+        if db.session.execute(db.select(Product).where(Product.prodid == prodid)).scalar() is None:    # check if user already exists
+            product = Product(prodid=prodid, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight)
             db.session.add(product)
             db.session.commit()
             return {"msg": "Product added successfully"}
