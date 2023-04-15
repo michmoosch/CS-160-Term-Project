@@ -6,11 +6,11 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    email = db.Column(db.VARCHAR(64), primary_key=True, nullable=False)
+    uid = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.VARCHAR(64), unique=True, nullable=False)
     pwd = db.Column(db.VARCHAR(128))
     fname = db.Column(db.VARCHAR(64))
     lname = db.Column(db.VARCHAR(64))
-    orderId = db.relationship("Order", uselist=False, backref="order_fk")
     
 
 class Product(db.Model):
