@@ -1,4 +1,5 @@
-from models import User, Product, CartItem, db
+from models import User, Product, Cart, db
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
@@ -155,6 +156,11 @@ def profile(uid):
 
 
 # Addprod page post request ERROR 
+# category = {'1': 'Paper Product', 
+#             '2': 'Art Supplies',
+#             '3': 'Computer/Print Supplies',
+#             '4': 'Desk Supplies',
+#             '5': 'Stationary'}
 @app.route('/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
 def addProd():
     if request.method == 'POST':
@@ -208,7 +214,7 @@ def delproduct():
     if request.method == 'POST':
         newData = request.get_json()
         id = newData['id']
-        if db.session.execute(db.select(Product).where(Product.prodId==id)).scalar() is not None:
+        if db.session.execute(db.select(Product).where(Product.prodid==id)).scalar() is not None:
             Product.query.filter(Product.prodId == id).delete()
             db.session.commit()
             return {"msg": "Product has been deleted"}
@@ -220,17 +226,27 @@ def delproduct():
 def addCartItem():
     if request.method == 'POST':
         data = request.get_json()
-        userId = data['user']
-        productId = data['id']
+        ssid = data['sessionId']
+        prodid = data['id']
         quantity = data['quantity']
         try:
-            cart = CartItem(uid=userId, productId=productId, quantity=quantity)
+            cart = Cart(ssid=ssid, prodid=prodid, quantity=quantity, created_at=datetime.now())
             db.session.add(cart)
             db.session.commit()
             return {"msg": "Item added to Cart"}
         except:
             return {"msg": "Product ID does not exists"}
 
+@app.route('/xxx', methods=['POST'])
+def delCartItem():
+    if request.method == 'POST':
+        data = request.get_json()
+        if db.session.execute(db.select(Cart).where(Cart.prodid=id)).scalar() is not None:
+            Cart.query.filter(Cart.prodid==id).delete()
+            db.seesion.commit()
+            return {'msg': "Product has been deleted from cart"}
+        else:
+            return {'msg': 'Error in delecting product'}
 
 @app.route('/api/products', methods=['GET'])
 def product_list():

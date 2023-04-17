@@ -6,12 +6,16 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
-    email = db.Column(db.VARCHAR(64), primary_key=True, nullable=False)
-    pwd = db.Column(db.VARCHAR(128))
-    fname = db.Column(db.VARCHAR(64))
-    lname = db.Column(db.VARCHAR(64))
-    orderId = db.relationship("Order", uselist=False, backref="order_fk")
-    
+    uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.VARCHAR(64), nullable=False)
+    pwd = db.Column(db.VARCHAR(128), nullable=False)
+    fname = db.Column(db.VARCHAR(64), nullable=False)
+    lname = db.Column(db.VARCHAR(64), nullable=False)
+    isAdmin = db.Column(db.Boolean, default=False)
+    street = db.Column(db.TEXT)
+    city = db.Column(db.VARCHAR(64))
+    state = db.Column(db.VARCHAR(64))
+    zipcode = db.Column(db.Integer)
 
 class Product(db.Model):
     prodid = db.Column(db.Integer, primary_key=True)
@@ -20,48 +24,59 @@ class Product(db.Model):
     prodUnitPrice = db.Column(db.DOUBLE, nullable=False)
     prodUnitInStock = db.Column(db.Integer, nullable=False)
     prodUnitWeight = db.Column(db.DOUBLE, nullable=False)
+    categoryId = db.Column(db.Integer, unique=True, nullable=False)
 
+class Category(db.Model):
+    categoryId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.VARCHAR(64))
+
+class ShoppingSession(db.Model):
+    ssid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.Integer, unique=True)
+    created_at = db.Column(db.DateTime())
 
 class Cart(db.Model):
-    cartid = db.Column(db.Integer, primary_key=True, nullable=False)
-    email = db.Column(db.Integer, ForeignKey(User.email), unique=True)
-    street = db.Column(db.TEXT)
-    city = db.Column(db.VARCHAR(16))
-    state = db.Column(db.VARCHAR(16))
-    zipcode = db.Column(db.Integer)
+    cartId = db.Column(db.Integer, primary_key=True, nullable=False)
+    ssid = db.Column(db.Integer, unique=True)
+    prodid = db.Column(db.Integer)
+    quantity = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime())
 
-class CartItem(db.Model):
-    __tablename__ = 'cartitem'
-    cartItemid = db.Column(db.INT, primary_key=True, nullable=False)
-    productId = db.Column(db.Integer, ForeignKey(Product.prodId))
-    cartId = db.Column(db.Integer, ForeignKey(Cart.cartId))
-    quantity = db.Column(db.INT)
+class OrderDetail(db.Model):
+    __tablename__ = 'OrderDetail'
+    orderDetailId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.Integer)
+    total = db.Column(db.Double)
+    paymentId = db.Column(db.Integer)
+    totalWeight = db.Column(db.Double)
+    deliveryMethod = db.Column(db.Enum('Truch', 'Pickup', 'Drone'))
+    status = db.Column(db.Enum('Completed', 'In Progress'), default='In Progress')
+    created_at = db.Column(db.DateTime())
 
-class userAddress(db.Model):
-    __tablename__ = 'address'
+class OrderItem(db.Model):
+    orderItemId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    orderId = db.Column(db.Integer, unique=True)
+    prodid = db.Column(db.Integer)
+
+class PaymentDetail(db.Model):
+    paymentId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    amount = db.Column(db.Double)
+    provider = db.Column(db.VARCHAR(64))
+
+class OrderAddr(db.Model):
+    __tablename__ = 'orderAddr'
     fname = db.Column(db.VARCHAR(64))
     lname = db.Column(db.VARCHAR(64))
     street = db.Column(db.TEXT)
     city = db.Column(db.VARCHAR(64))
     state = db.Column(db.VARCHAR(64))
     zipcode = db.Column(db.Integer)
+    orderDetailId = db.Column(db.Integer)
 
-class driver(db.Model):
-    __tablename__ = 'driver'
-    driverid = db.Column(db.Integer, primary_key=True, nullable=False)
+class Driver(db.Model):
+    __tablename__ = 'Driver'
     fname = db.Column(db.VARCHAR(64))
     lname = db.Column(db.VARCHAR(64))
-    status = db.Column(db.VARCHAR(20))
-    warehouse = db.Column(db.VARCHAR(20))
-    orderNum = db.Column(db.Integer)
-
-class Order(db.Model):
-    orderid = db.Column(db.INT, primary_key=True, nullable=False)
-    orderDate = db.Column(db.TEXT)
-    orderDeliveryMethod = db.Column(db.VARCHAR(64))
-    uid = db.Column(db.Integer, ForeignKey(User.email), unique=True)
-
-# class ShoppingSession(db.Model):
-#     cartID = db.Column(db.INT, primary_key=True, nullable=False)
-#     cartUserID = db.relationship('User', backref='cartsession', lazy=True)
-#     cartTotal = db.Column(db.DOUBLE)
+    status = db.Column(db.Enum('Ready', 'In Progress'), default='Ready')
+    warehouse = db.Column(db.VARCHAR(64))
+    orderDetailId = db.Column(db.Integer)
