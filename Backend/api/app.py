@@ -241,7 +241,7 @@ def addCartItem():
 def delCartItem():
     if request.method == 'POST':
         data = request.get_json()
-        if db.session.execute(db.select(Cart).where(Cart.prodid=id)).scalar() is not None:
+        if db.session.execute(db.select(Cart).where(Cart.prodid==id)).scalar() is not None:
             Cart.query.filter(Cart.prodid==id).delete()
             db.seesion.commit()
             return {'msg': "Product has been deleted from cart"}
