@@ -23,7 +23,7 @@ function Addprod() {
 
 
 
-        const url = "http://127.0.0.1:5000/register"
+        const url = "/addProd"
         const customHeader = {
           headers: {
             // Authorization: `Bearer ${getLocalStorageToken()}`,
