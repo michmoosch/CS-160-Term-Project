@@ -4,10 +4,9 @@ from sqlalchemy import DateTime, func
 db = SQLAlchemy()
 
 class User(db.Model):
-<<<<<<< HEAD
     __tablename__ = 'user'
     uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.VARCHAR(64), nullable=False)
+    email = db.Column(db.VARCHAR(64),unique=True, nullable=False)
     pwd = db.Column(db.VARCHAR(128), nullable=False)
     fname = db.Column(db.VARCHAR(64), nullable=False)
     lname = db.Column(db.VARCHAR(64), nullable=False)
@@ -16,14 +15,6 @@ class User(db.Model):
     city = db.Column(db.VARCHAR(64))
     state = db.Column(db.VARCHAR(64))
     zipcode = db.Column(db.Integer)
-=======
-    uid = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.VARCHAR(64), unique=True, nullable=False)
-    pwd = db.Column(db.VARCHAR(128))
-    fname = db.Column(db.VARCHAR(64))
-    lname = db.Column(db.VARCHAR(64))
-    
->>>>>>> 62840b8bcbae8c0565b54a3694ed1197be1bd1f8
 
 class Product(db.Model):
     __tablename__ = 'product'
