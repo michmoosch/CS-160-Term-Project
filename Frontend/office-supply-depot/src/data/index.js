@@ -42,3 +42,4 @@ export const products = [
         image: "http://source.unsplash.com/random"
     }
 ]
+

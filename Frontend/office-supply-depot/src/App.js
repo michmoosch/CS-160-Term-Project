@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { Container } from "@mui/system";
 import { ThemeProvider } from "@mui/system";
 import theme from './Styles/theme';
+import Checkout from "./pages/checkout";
 
 function App() {
 
