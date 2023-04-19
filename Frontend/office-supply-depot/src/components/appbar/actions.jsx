@@ -29,7 +29,17 @@ function Actions({ matches }) {
   return (
     <Component>
       <MyList type="row">
-        <ListItemButton sx={{ justifyContent: "center" }}>
+        <ListItemButton
+          onClick={() => setShowCart(true)}
+          sx={{
+            justifyContent: "center",
+            width: "3em",
+            height: "3em",
+            borderRadius: "50%",
+            m: 2,
+          }}
+          style={{ backgroundColor: Colors.secondary }}
+        >
           <ListItemIcon
             sx={{
               display: "flex",
@@ -37,13 +47,21 @@ function Actions({ matches }) {
               color: matches && Colors.secondary,
             }}
           >
-            <Badge badgeContent={cart && cart.length} color="secondary">
-              <ShoppingCardIcon onClick={() => setShowCart(true)} />
+            <Badge badgeContent={cart && cart.length} color="info">
+              <ShoppingCardIcon style={{ color: "white" }} />
             </Badge>
           </ListItemIcon>
         </ListItemButton>
-        <Divider orientation="vertical" flexItem />
-        <ListItemButton sx={{ justifyContent: "center" }}>
+        {/* <Divider orientation="vertical" flexItem /> */}
+        <ListItemButton
+          sx={{
+            justifyContent: "center",
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+          }}
+          style={{ backgroundColor: Colors.secondary }}
+        >
           <ListItemIcon
             sx={{
               display: "flex",
@@ -51,26 +69,16 @@ function Actions({ matches }) {
               color: matches && Colors.secondary,
             }}
           >
-            <FavoriteIcon />
-          </ListItemIcon>
-        </ListItemButton>
-        <Divider orientation="vertical" flexItem />
-        <ListItemButton sx={{ justifyContent: "center" }}>
-          <ListItemIcon
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              color: matches && Colors.secondary,
-            }}
-          >
-            <PersonIcon onClick={() => setIsOpen(true)} />
+            <PersonIcon
+              onClick={() => setIsOpen(true)}
+              style={{ color: "white" }}
+            />
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
               <Login />
               {/* <Signup /> */}
             </Modal>
           </ListItemIcon>
         </ListItemButton>
-        <Divider orientation="vertical" flexItem />
       </MyList>
     </Component>
   );

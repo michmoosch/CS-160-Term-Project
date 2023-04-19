@@ -5,9 +5,9 @@ export const DrawerWidth = 250;
 
 export const Colors = {
   primary: "#7a7a7a",
-  secondary: "#adadad",
+  secondary: "#525151",
   success: "#4CAF50",
-  info: "#00a2ff",
+  info: "#34a1eb",
   danger: "#FF5722",
   warning: "#FFC107",
   dark: "#0e1b20",
@@ -28,6 +28,7 @@ export const Colors = {
   ///////////////
   white: "#fff",
   black: "#000",
+  blue: "#00a2ff",
 };
 
 const theme = createTheme({

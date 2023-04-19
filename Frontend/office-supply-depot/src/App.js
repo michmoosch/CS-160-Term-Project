@@ -9,6 +9,7 @@ import { Container } from "@mui/system";
 import { ThemeProvider } from "@mui/system";
 import theme from './Styles/theme';
 import Checkout from "./pages/checkout";
+import SuccessPay from "./pages/home/SuccessPay";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             </Route>
             <Route path="signup" element={<Signup />} />
             <Route path="home" element={<Home />} />
+            <Route path="success" element={<SuccessPay/>}/>
           </Routes>
         </BrowserRouter>
       </Container>

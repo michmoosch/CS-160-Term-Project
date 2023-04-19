@@ -1,23 +1,30 @@
-import { Drawer, List, ListItemButton, ListItemText, Divider, Button, Typography } from '@mui/material'
-import { styled } from '@mui/system'
-import React from 'react'
-import { useUIContext } from '../../context/ui';
-import CloseIcon from '@mui/icons-material/Close';
-import { DrawerCloseButton } from '../../Styles/appbar';
+import {
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
+  Divider,
+  Button,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/system";
+import React from "react";
+import { useUIContext } from "../../context/ui";
+import CloseIcon from "@mui/icons-material/Close";
+import { DrawerCloseButton } from "../../Styles/appbar";
 import { lighten } from "polished";
-import { Colors } from '../../Styles/theme';
+import { Colors } from "../../Styles/theme";
 
 const MiddleDivider = styled((props) => (
-    <Divider variant='middle' {...props}/>
+  <Divider variant="middle" {...props} />
 ))``;
 
 export default function AppDrawer() {
+  const { drawerOpen, setDrawerOpen } = useUIContext();
 
-    const {drawerOpen, setDrawerOpen} = useUIContext();
-
-    return (
-        <>
-          {drawerOpen && (
+  return (
+    <>
+      {drawerOpen && (
         <DrawerCloseButton onClick={() => setDrawerOpen(false)}>
           <CloseIcon
             sx={{
@@ -27,30 +34,23 @@ export default function AppDrawer() {
           />
         </DrawerCloseButton>
       )}
-          <Drawer open={drawerOpen}>
-            <List>
-              <ListItemButton>
-                <ListItemText>Home</ListItemText>
-              </ListItemButton>
-              <MiddleDivider />
-              <ListItemButton>
-                <ListItemText>Categories</ListItemText>
-              </ListItemButton>
-              <MiddleDivider />
-              <ListItemButton>
-                <ListItemText>Products</ListItemText>
-              </ListItemButton>
-              <MiddleDivider />
-              <ListItemButton>
-                <ListItemText>About Us</ListItemText>
-              </ListItemButton>
-              <MiddleDivider />
-              <ListItemButton>
-                <ListItemText>Contact Us</ListItemText>
-              </ListItemButton>
-              <MiddleDivider />
-            </List>
-          </Drawer>
-        </>
-      );
-    }
+      <Drawer open={drawerOpen}>
+        <List>
+          <ListItemButton>
+            <ListItemText>Categories</ListItemText>
+          </ListItemButton>
+          <MiddleDivider />
+          <MiddleDivider />
+          <ListItemButton>
+            <ListItemText>Contact Us</ListItemText>
+          </ListItemButton>
+          <MiddleDivider />
+          <ListItemButton>
+            <ListItemText>About Us</ListItemText>
+          </ListItemButton>
+          <MiddleDivider />
+        </List>
+      </Drawer>
+    </>
+  );
+}

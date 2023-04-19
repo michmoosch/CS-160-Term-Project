@@ -3,12 +3,37 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/montez": "^4.5.10",
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.15",
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.52.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "hero-slider": "^3.1.0",
     "polished": "^4.2.2",
     "react-router": "^6.10.0",
-    "react-router-dom": "^6.10.0"
-  }
+    "react-router-dom": "^6.10.0",
+    "stripe": "^12.1.1"
+  },
+  "name": "cs-160-term-project",
+  "description": "## Due Dates: - [x] Part I:\t\t40 points; Due Date: 2/23/23 - [x] Part II: \t40 points; Due Date: 3/2/23 - [ ] Part III: \t260 points; Due Date: 5/1 – 5/3 (Final Project Presentation – 12 min each) - [ ] Part IV: \t40 points; Due Date: 5/8/23 – Black box testing - [ ] Part V:\t40 points; Due Date: 5/15/23 – SW maintenance (bug fixing) - [ ] Part VI:\t40 points; Scrum Meeting Participations (Individual score) - [ ] Part VII:\t40 points; Retrospective; Team Review (Individual score)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michmoosch/CS-160-Term-Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michmoosch/CS-160-Term-Project/issues"
+  },
+  "homepage": "https://github.com/michmoosch/CS-160-Term-Project#readme"
 }

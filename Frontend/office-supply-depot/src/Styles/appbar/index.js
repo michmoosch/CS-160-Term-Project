@@ -11,10 +11,10 @@ import { textPopUpTop } from "../../animation";
 export const AppbarContainer = styled(Box)(() => ({    
     display: 'flex',
     marginTop: 4,
-    // backgroundColor: Colors.secondary,
+    backgroundColor: Colors.black,
     justifyContent: 'space-around',
     alignItems: 'center',
-    padding: '2px 8px'
+    padding: '1px 8px'
 }));
 
 // export const BannerImage = styled("img")(({ src, theme }) => ({
@@ -35,7 +35,7 @@ export const AppbarContainer = styled(Box)(() => ({
 
 export const AppbarHeader = styled("img")(({src, theme}) => ({
   src: `url(${src})`,
-  width: "100px",
+  width: "70px",
   objectFit: "contain",
   [theme.breakpoints.down("md")]: {
     width: "90px",

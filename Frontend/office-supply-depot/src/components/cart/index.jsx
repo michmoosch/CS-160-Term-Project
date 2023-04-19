@@ -13,6 +13,24 @@ function Cart() {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
+  const checkout = async () => {
+    await fetch("http://localhost:4000/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cart }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          window.location.assign(response.url);
+        }
+      });
+  };
+
   const cartContent = cart.map((item) => (
     <Box key={item.id}>
       <Box
@@ -66,7 +84,7 @@ function Cart() {
           }}
         >
           <Typography variant="h3" color={"grey"}>
-            My Cart
+            Shopping Cart
           </Typography>
 
           <Paper
@@ -79,7 +97,12 @@ function Cart() {
           >
             {cartContent}
           </Paper>
-          <Button sx={{ mt: 4 }} variant="contained" color="success">
+          <Button
+            onClick={checkout}
+            sx={{ mt: 4 }}
+            variant="contained"
+            color="success"
+          >
             Checkout
           </Button>
         </Box>
