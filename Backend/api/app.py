@@ -248,6 +248,8 @@ def delCartItem():
         else:
             return {'msg': 'Error in delecting product'}
 
+
+
 @app.route('/api/products', methods=['GET'])
 def product_list():
     if request.method == 'GET':
