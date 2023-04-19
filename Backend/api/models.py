@@ -6,7 +6,7 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'user'
     uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.VARCHAR(64), nullable=False)
+    email = db.Column(db.VARCHAR(64),unique=True, nullable=False)
     pwd = db.Column(db.VARCHAR(128), nullable=False)
     fname = db.Column(db.VARCHAR(64), nullable=False)
     lname = db.Column(db.VARCHAR(64), nullable=False)
