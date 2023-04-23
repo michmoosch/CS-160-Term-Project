@@ -66,19 +66,8 @@
 
 -- CREATE TABLE OrderItem(
 --     orderItemId Integer AUTO_INCREMENT PRIMARY KEY,
---     orderId Integer,
---     prodid Integer,
---     FOREIGN Key(orderId) REFERENCES orderDetail(orderDetailId),
---     FOREIGN Key(prodid) REFERENCES product(prodid)
--- );
-
--- CREATE TABLE userAddress(
---     fname VARCHAR(64),
---     lname VARCHAR(64), 
---     street TEXT, 
---     city VARCHAR(24), 
---     state VARCHAR(24),
---     zipcode Integer,
 --     orderDetailId Integer,
---     FOREIGN KEY(orderDetailIdd) REFERENCES OrderDetail(orderDetailId)
+--     prodid Integer,
+--     FOREIGN Key(orderDetailId) REFERENCES orderDetail(orderDetailId),
+--     FOREIGN Key(prodid) REFERENCES product(prodid)
 -- );
