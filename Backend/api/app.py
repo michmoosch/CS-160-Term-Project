@@ -3,6 +3,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 from sqlalchemy.orm.attributes import flag_modified
 
 
@@ -11,6 +12,9 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/testdb"
 
 db.init_app(app)
+
+app.config["JWT_SECRET_KEY"] = "k6x*Ak&Dt#UkjP&yib9aYxJR$R6cQy74"
+jwt = JWTManager(app)
 
 
 with app.app_context():
@@ -43,13 +47,19 @@ def login():
         db_pwd = db.session.execute(db.select(User.pwd).where(User.email == email)).scalar()
         if db_pwd is not None:
             if check_password_hash(db_pwd, pwd):
-                return {"msg": "User successfully logged in"}
+                token = create_access_token(identity=email)
+                return {"msg": "User successfully logged in", "access_token": token}
         return {"msg": "Incorrect email or password"}, 400
     
 
 @app.route('/api/users', methods=['GET'])
+@jwt_required
 def users_list():
     if request.method == 'GET':
+        identity = get_jwt_identity()
+        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
+        if(not isAdmin):
+            return {"msg": "Unauthorized to access"}, 401
         uid = request.args.get('uid')
         email = request.args.get('email')
         fname = request.args.get('fname')
@@ -116,7 +126,7 @@ def users_list():
         
 
 @app.route('/api/users/<uid>', methods=['GET', 'PUT'])
-def profile(uid):
+def user_details(uid):
     if request.method == 'GET':
         user = db.session.execute(db.select(User)
                                     .where(User.uid == uid)).scalar_one()
@@ -162,8 +172,13 @@ def profile(uid):
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
 @app.route('/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
+@jwt_required
 def addProd():
     if request.method == 'POST':
+        identity = get_jwt_identity()
+        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
+        if(not isAdmin):
+            return {"msg": "Unauthorized to access"}, 401
         data = request.get_json()
         prodid = data['id']
         prodName = data['name']
@@ -181,8 +196,13 @@ def addProd():
         
 # TODO : Frontend not connected
 @app.route('/xxx', methods=['POST'])
+@jwt_required
 def updateproduct():
     if request.method == 'POST':
+        identity = get_jwt_identity()
+        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
+        if(not isAdmin):
+            return {"msg": "Unauthorized to access"}, 401
         newData = request.get_json()
         id = newData['id']
         name = newData['name']
@@ -210,8 +230,13 @@ def updateproduct():
 
 # Delete an item from database
 @app.route('/xxx', methods=['POST'])
+@jwt_required
 def delproduct():
     if request.method == 'POST':
+        identity = get_jwt_identity()
+        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
+        if(not isAdmin):
+            return {"msg": "Unauthorized to access"}, 401
         newData = request.get_json()
         id = newData['id']
         if db.session.execute(db.select(Product).where(Product.prodid==id)).scalar() is not None:

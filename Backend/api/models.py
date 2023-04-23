@@ -1,5 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy, ForeignKey
-from sqlalchemy import DateTime, func
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import DateTime, func, ForeignKey
 
 db = SQLAlchemy()
 

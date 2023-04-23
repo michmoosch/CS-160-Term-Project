@@ -15,8 +15,8 @@
 On Windows: `venv\Scripts\activate`
 On Mac `source venv\bin\activate`
 
-5. Once connected to virtual environment, install requirements: `pip install -r Backend/requirements.txt`
-6. To run flask server: `flask --app Backend\api\app run`
+5. Once connected to virtual environment, install requirements: `pip install -r requirements.txt`
+6. To run flask server: `flask --app app run`
 
 All fields and responses are in JSON format.
 Parameters are URL parameters (ie. /api/products?query=name&page=1)
