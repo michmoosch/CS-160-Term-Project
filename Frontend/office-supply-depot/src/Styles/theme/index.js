@@ -26,7 +26,7 @@ export const Colors = {
   ///////////////
   // Solid Color
   ///////////////
-  white: "#fff",
+  white: "#ffff",
   black: "#000",
   blue: "#00a2ff",
 };

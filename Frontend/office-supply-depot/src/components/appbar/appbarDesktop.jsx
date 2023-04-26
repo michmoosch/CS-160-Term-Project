@@ -52,15 +52,18 @@ function AppbarDesktop({ matches }) {
         ))}
       </Box>
 
+      <ListItemButton sx={{ color: "white", float: "right" }}>
+        <ListItemIcon>
+          <SearchIcon
+            onClick={() => setShowSearchBox(true)}
+            sx={{ color: "white" }}
+          />
+        </ListItemIcon>
+      </ListItemButton>
       {/* <MyList type="row">
         <ListItemText primary="Categories" />
         <ListItemText primary="Contact Us" />
         <ListItemText primary="About Us" />
-        <ListItemButton>
-          <ListItemIcon>
-            <SearchIcon onClick={() => setShowSearchBox(true)} />
-          </ListItemIcon>
-        </ListItemButton>
       </MyList> */}
       <Actions matches={matches} />
     </AppbarContainer>

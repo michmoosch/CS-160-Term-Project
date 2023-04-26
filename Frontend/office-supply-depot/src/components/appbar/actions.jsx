@@ -1,5 +1,5 @@
 import { Divider, ListItemButton, ListItemIcon } from "@mui/material";
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {
   MyList,
   ActionIconsContainerDesktop,
@@ -16,8 +16,10 @@ import Login from "../../pages/login/Login";
 import Signup from "../../pages/signup/Signup";
 import Badge from "@mui/material/Badge";
 import { useUIContext } from "../../context/ui";
+import { UIContext } from "../../context/ui";
 
 function Actions({ matches }) {
+  //const cart = useContext(UIContext);
   const { cart, setShowCart } = useUIContext();
 
   const Component = matches

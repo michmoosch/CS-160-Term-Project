@@ -11,7 +11,7 @@ const products = [
         name: "Super Backpack",
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        image: "http://source.unsplash.com/random" //process.env.PUBLIC_URL + "/images/backpack.jpg"
     },
     {
         id: "price_1MyPqmKqLmqC1u8HlhbwYKNF",

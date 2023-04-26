@@ -26,7 +26,7 @@ export const SearchField = styled(TextField)(({ theme }) => ({
           [theme.breakpoints.up('md')]: {
               fontSize: '2rem',
           },
-      color: Colors.secondary,
+      color: Colors.white,
     },
     ".MuiInput-root::before": {
       borderBottom: `1px solid ${Colors.secondary}`,
