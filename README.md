@@ -13,7 +13,7 @@
  ### Frontend
  - Axios: npm i axios
  - React Router: npm i react-router react-router-dom
- - MUI and font: npm install @fontsource/montez @fontsource/montez @mui/icons-material @material-ui/core @material-ui/icons
+ - MUI and font: npm install @fontsource/montez @fontsource/montez @mui/icons-material @material-ui/core @material-ui/icons react-bootstrap bootstrap
  - Expess, stripe, and cors (run this command at the CS-160-Term-Project directory): npm install @stripe/react-stripe-js @stripe/stripe-js express cors stripe
 
 ## Notes:
