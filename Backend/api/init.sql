@@ -26,27 +26,35 @@ CREATE TABLE Product(
     prodUnitPrice DOUBLE NOT NULL,
     prodUnitInStock INTEGER NOT NULL,
     prodUnitWeight DOUBLE NOT NULL,
-    categoryId INTEGER,
-    FOREIGN KEY(categoryId) REFERENCES Category(categoryId)
+    categoryId INTEGER UNIQUE NOT NULL,
+    FOREIGN KEY(categoryId) 
+        REFERENCES Category(categoryId)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE ShoppingSession(
-    ssid Integer NOT NULL PRIMARY KEY,
-    uid Integer,
+    ssid Integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uid Integer UNIQUE,
     created_at TIMESTAMP,
     modifted_at TIMESTAMP,
-    FOREIGN KEY(uid) REFERENCES user(uid)
+    FOREIGN KEY(uid) 
+        REFERENCES user(uid)
+        ON DELETE CASCADE
  );
 
 CREATE TABLE Cart(
     cartId Integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ssid Integer,
-    prodid Integer,
+    ssid Integer UNIQUE NOT NULL,
+    prodid Integer UNIQUE,
     quantity Integer,
     created_at TIMESTAMP,
     modifted_at TIMESTAMP,
-    FOREIGN KEY(ssid) REFERENCES ShoppingSession(ssid),
-    FOREIGN KEY(prodid) REFERENCES product(prodid)
+    FOREIGN KEY(ssid) 
+        REFERENCES ShoppingSession(ssid)
+        ON DELETE CASCADE,
+    FOREIGN KEY(prodid)
+        REFERENCES product(prodid)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE paymentDetail(
@@ -61,11 +69,15 @@ CREATE TABLE OrderDetail(
     total Double,
     paymentId Integer,
     totalWeight Double,
-    deliveryMethod ENUM('Pickup', 'Truck', 'Drone'),
-    status ENUM('Completed', 'In Progress'),
+    deliveryMethod ENUM('Truck', 'Pickup', 'Drone'),
+    status ENUM('Completed', 'In Progress') DEFAULT 'In Progress',
     created_at TIMESTAMP,
-    FOREIGN Key(uid) REFERENCES user(uid),
-    FOREIGN Key(paymentId) REFERENCES paymentDetail(paymentId)
+    FOREIGN Key(uid)
+        REFERENCES user(uid)
+        ON DELETE CASCADE,
+    FOREIGN Key(paymentId)
+        REFERENCES paymentDetail(paymentId)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Driver(
@@ -79,14 +91,17 @@ CREATE TABLE Driver(
 );
 
 CREATE TABLE orderAddr(
+    addrID Integer AUTO_INCREMENT NOT NULL PRIMARY KEY
     fname VARCHAR(64),
     lname VARCHAR(64), 
     street TEXT, 
     city VARCHAR(24), 
     state VARCHAR(24),
     zipcode Integer,
-    orderDetailId Integer,
-    FOREIGN KEY(orderDetailId) REFERENCES OrderDetail(orderDetailId)
+    orderDetailId Integer NOT NULL,
+    FOREIGN KEY(orderDetailId)
+        REFERENCES OrderDetail(orderDetailId)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE OrderItem(

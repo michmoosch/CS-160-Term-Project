@@ -1,21 +1,20 @@
-from api import create_app, db
-from api.models import User, Product, Cart
+from api.models import User, Product, Cart, db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import request
+from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
 
 
-app = create_app()
+route_bp = Blueprint("route_bp", __name__)
 
 
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
+#@route_bp.errorhandler(404)
+#def not_found(e):
+#    return app.send_static_file('index.html')
 
 
-@app.route('/api/register', methods=['POST'])
+@route_bp.route('/api/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         data = request.get_json()
@@ -32,7 +31,7 @@ def register():
             return {"msg": "User already exists"}, 400
 
 
-@app.route('/api/login', methods=['POST'])
+@route_bp.route('/api/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         data = request.get_json()
@@ -46,7 +45,7 @@ def login():
         return {"msg": "Incorrect email or password"}, 400
     
 
-@app.route('/api/users', methods=['GET'])
+@route_bp.route('/api/users', methods=['GET'])
 @jwt_required()
 def users_list():
     if request.method == 'GET':
@@ -119,7 +118,7 @@ def users_list():
             return {'data': [], "msg": "No results for given query"}, 404
         
 
-@app.route('/api/users/<uid>', methods=['GET', 'PUT'])
+@route_bp.route('/api/users/<uid>', methods=['GET', 'PUT'])
 def user_details(uid):
     if request.method == 'GET':
         user = db.session.execute(db.select(User)
@@ -165,7 +164,7 @@ def user_details(uid):
 #             '3': 'Computer/Print Supplies',
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
-@app.route('/api/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
+@route_bp.route('/api/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
 @jwt_required()
 def addProd():
     if request.method == 'POST':
@@ -189,7 +188,7 @@ def addProd():
             return {"msg": "Product already exists"}
         
 # TODO : Frontend not connected
-@app.route('/api/updateprod', methods=['POST'])
+@route_bp.route('/api/updateprod', methods=['POST'])
 @jwt_required()
 def updateproduct():
     if request.method == 'POST':
@@ -223,7 +222,7 @@ def updateproduct():
 
 
 # Delete an item from database
-@app.route('/api/deleteprod', methods=['POST'])
+@route_bp.route('/api/deleteprod', methods=['POST'])
 @jwt_required()
 def delproduct():
     if request.method == 'POST':
@@ -241,7 +240,7 @@ def delproduct():
             return {"msg": "No item has found"}
 
 # Input prod ID
-@app.route('/api/add_to_cart', methods=['POST'])
+@route_bp.route('/api/add_to_cart', methods=['POST'])
 def addCartItem():
     if request.method == 'POST':
         data = request.get_json()
@@ -256,7 +255,7 @@ def addCartItem():
         except:
             return {"msg": "Product ID does not exists"}
 
-@app.route('/api/remove_from_cart', methods=['PUT'])
+@route_bp.route('/api/remove_from_cart', methods=['PUT'])
 def delCartItem():
     if request.method == 'PUT':
         data = request.get_json()
@@ -269,7 +268,7 @@ def delCartItem():
 
 
 
-@app.route('/api/products', methods=['GET'])
+@route_bp.route('/api/products', methods=['GET'])
 def product_list():
     if request.method == 'GET':
         search = request.args.get('search')
@@ -348,7 +347,7 @@ def product_list():
             return {'data': [], "msg": "No results for given query"}, 404
 
 
-@app.route('/api/products/<prodid>', methods=['GET'])
+@route_bp.route('/api/products/<prodid>', methods=['GET'])
 def product_details(prodid):
     if request.method == 'GET':
         product = db.session.execute(db.select(Product)

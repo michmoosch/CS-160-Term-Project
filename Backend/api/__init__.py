@@ -1,11 +1,12 @@
 from flask import Flask
 from api.config import Config
-from flask_sqlalchemy import SQLAlchemy
+from api.models import db
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
-db = SQLAlchemy()
+
 jwt = JWTManager()
+cors = CORS()
 
 
 def create_app(config_class=Config):
@@ -13,9 +14,9 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
     db.init_app(app)
     jwt.init_app(app)
-    CORS(app)
+    cors.init_app(app)
 
-    with app.app_context():
-        db.create_all()
+    from api.app import route_bp
+    app.register_blueprint(route_bp)
 
     return app
