@@ -1,24 +1,18 @@
-from models import User, Product, Cart, db
+from api import create_app, db
+from api.models import User, Product, Cart
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, request
-from flask_cors import CORS, cross_origin
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
+from flask import request
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
 
 
-app = Flask(__name__)
-CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:password@localhost/testdb"
-
-db.init_app(app)
-
-app.config["JWT_SECRET_KEY"] = "k6x*Ak&Dt#UkjP&yib9aYxJR$R6cQy74"
-jwt = JWTManager(app)
+app = create_app()
 
 
-with app.app_context():
-    db.create_all()
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
 
 @app.route('/api/register', methods=['POST'])
@@ -53,7 +47,7 @@ def login():
     
 
 @app.route('/api/users', methods=['GET'])
-@jwt_required
+@jwt_required()
 def users_list():
     if request.method == 'GET':
         identity = get_jwt_identity()
@@ -171,8 +165,8 @@ def user_details(uid):
 #             '3': 'Computer/Print Supplies',
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
-@app.route('/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
-@jwt_required
+@app.route('/api/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
+@jwt_required()
 def addProd():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -195,8 +189,8 @@ def addProd():
             return {"msg": "Product already exists"}
         
 # TODO : Frontend not connected
-@app.route('/xxx', methods=['POST'])
-@jwt_required
+@app.route('/api/updateprod', methods=['POST'])
+@jwt_required()
 def updateproduct():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -229,8 +223,8 @@ def updateproduct():
 
 
 # Delete an item from database
-@app.route('/xxx', methods=['POST'])
-@jwt_required
+@app.route('/api/deleteprod', methods=['POST'])
+@jwt_required()
 def delproduct():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -247,7 +241,7 @@ def delproduct():
             return {"msg": "No item has found"}
 
 # Input prod ID
-@app.route('/xxx', methods=['POST'])
+@app.route('/api/add_to_cart', methods=['POST'])
 def addCartItem():
     if request.method == 'POST':
         data = request.get_json()
@@ -262,9 +256,9 @@ def addCartItem():
         except:
             return {"msg": "Product ID does not exists"}
 
-@app.route('/xxx', methods=['POST'])
+@app.route('/api/remove_from_cart', methods=['PUT'])
 def delCartItem():
-    if request.method == 'POST':
+    if request.method == 'PUT':
         data = request.get_json()
         if db.session.execute(db.select(Cart).where(Cart.prodid==id)).scalar() is not None:
             Cart.query.filter(Cart.prodid==id).delete()
@@ -356,19 +350,20 @@ def product_list():
 
 @app.route('/api/products/<prodid>', methods=['GET'])
 def product_details(prodid):
-    product = db.session.execute(db.select(Product)
-                              .where(Product.prodid == prodid)).scalar_one()
-    if product is not None:
-        return {
-                    'data': [{
-                            "prodid": product.prodid,
-                            "prodName": product.prodName,
-                            "prodDescip": product.prodDescip,
-                            "prodUnitPrice": product.prodUnitPrice,
-                            "prodUnitInStock": product.prodUnitInStock,
-                            "prodUnitWeight": product.prodUnitWeight
-                    }],
-                    'msg': 'Found product'
-                }
-    else:
-        return {'data': [], "msg": "Product doesn't exist"}, 404
+    if request.method == 'GET':
+        product = db.session.execute(db.select(Product)
+                                .where(Product.prodid == prodid)).scalar_one()
+        if product is not None:
+            return {
+                        'data': [{
+                                "prodid": product.prodid,
+                                "prodName": product.prodName,
+                                "prodDescip": product.prodDescip,
+                                "prodUnitPrice": product.prodUnitPrice,
+                                "prodUnitInStock": product.prodUnitInStock,
+                                "prodUnitWeight": product.prodUnitWeight
+                        }],
+                        'msg': 'Found product'
+                    }
+        else:
+            return {'data': [], "msg": "Product doesn't exist"}, 404

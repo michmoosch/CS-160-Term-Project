@@ -24,3 +24,6 @@ Backend: Python, SQL
 
 ## Links:
  Backlog: https://trello.com/b/Oe9Y57WT/cs160-team9 
+
+## Docker:
+To run website on Docker: `docker-compose up -d`

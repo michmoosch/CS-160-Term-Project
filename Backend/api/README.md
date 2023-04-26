@@ -4,9 +4,9 @@
 ## Installation and Running
 
 1. Install python 3.10 and MySQL 8 on your system
-2. When setting up MySQL, note down credentials for connecting to the server. Modify DB connection string in app.py accordingly.
+2. When setting up MySQL, note down credentials for connecting to the server. Modify DB connection string in the .env file accordingly.
 3. Connect to MySQL. In MySQL Shell `\connect {user}:{password}@{host}:3306`
-4. Create database. In MySQL Shell `\sql CREATE DATABASE IF NOT EXISTS testdb;`. Append the database to end of connection string in app.py ie. `mysql+pymysql://root:password@localhost/testdb`
+4. Create database. In MySQL Shell `\sql CREATE DATABASE IF NOT EXISTS testdb;`.
 3. Open terminal and navigate to api folder. On Windows Powershell or Linux Bash:
 `cd /$PATH-TO-PROJECT/Backend/api`
 4. Create virtual environment `python -m venv venv`
