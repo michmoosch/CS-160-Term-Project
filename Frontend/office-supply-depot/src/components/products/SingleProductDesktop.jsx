@@ -35,9 +35,6 @@ export default function SingleProductDesktop({ product, matches }) {
     <>
       <Product onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <ProductImage src={product.image} />
-        <ProductFavButton isfav={0}>
-          <FavoriteIcon />
-        </ProductFavButton>
         {showOptions && (
           <ProductAddToCart
             onClick={addToCart}
@@ -49,11 +46,6 @@ export default function SingleProductDesktop({ product, matches }) {
         )}
         <ProductActionsWrapper show={showOptions || matches}>
           <Stack direction={matches ? "row" : "column"}>
-            <ProductActionButton>
-              <Tooltip placement="left" title="share this product">
-                <ShareIcon color="primary" />
-              </Tooltip>
-            </ProductActionButton>
             <ProductActionButton onClick={() => showProductDetailDialog()}>
               {/* might need to add this prop to the component below: title="Full view" */}
               <Tooltip placement="left">

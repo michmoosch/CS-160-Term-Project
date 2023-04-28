@@ -41,14 +41,6 @@ function SingleProduct({ product, matches }) {
         <ProductMeta product={product} matches={matches} />
         <ProductActionsWrapper>
           <Stack direction={matches ? "row" : "column"}>
-            <ProductFavButton isfav={0}>
-              <FavoriteIcon />
-            </ProductFavButton>
-            <ProductActionButton>
-              <Tooltip placement="left" title="share this product">
-                <ShareIcon color="primary" />
-              </Tooltip>
-            </ProductActionButton>
             <ProductActionButton onClick={() => showProductDetailDialog()}>
               <Tooltip placement="left" title="Full view">
                 <FitScreenIcon color="primary" />
