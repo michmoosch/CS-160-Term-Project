@@ -5,13 +5,14 @@
 // Best Tote: price_1MyPtsKqLmqC1u8HijN4AW9P
 // SHarpie Fine Tip Permanent Marker: price_1MyPv0KqLmqC1u8HLwrTYuMT
 
+
 const products = [
     {
         id: "price_1MyPpLKqLmqC1u8HU4Ro53YA",
         name: "Super Backpack",
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        image: `${process.env.PUBLIC_URL}/images/products/bag_01.png`
     },
     {
         id: "price_1MyPqmKqLmqC1u8HlhbwYKNF",

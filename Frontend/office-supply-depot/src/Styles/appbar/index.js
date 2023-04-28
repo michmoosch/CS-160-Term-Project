@@ -1,11 +1,12 @@
 import { styled } from "@mui/material/styles";
 import "@fontsource/montez";
 import { Box } from "@mui/system";
-import { IconButton, List, Typography } from "@mui/material";
+import { IconButton, InputBase, List, Typography } from "@mui/material";
 import { Colors } from '../theme'
 import { position } from "polished";
 import zIndex from "@mui/material/styles/zIndex";
 import { textPopUpTop } from "../../animation";
+import { alpha } from "@material-ui/core";
 
 // Container
 export const AppbarContainer = styled(Box)(() => ({    
@@ -82,3 +83,46 @@ export const ActionIconsContainerMobile = styled(Box)(() => ({
     zIndex: 1999,
 
   }));
+
+  export const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  color: 'white',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+export const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
+      },
+    },
+  },
+}));

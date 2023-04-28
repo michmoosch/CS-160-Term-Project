@@ -5,6 +5,9 @@ import {
   AppbarContainer,
   AppbarHeader,
   MyList,
+  StyledInputBase,
+  SearchIconWrapper,
+  Search,
 } from "../../Styles/appbar";
 import {
   ListItemText,
@@ -12,11 +15,15 @@ import {
   ListItemButton,
   Box,
   Button,
+  InputBase,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Actions from "./actions";
 import { useUIContext } from "../../context/ui";
 import { Link } from "react-router-dom";
+// import { Search } from "@material-ui/icons";
+import styled from "@emotion/styled";
+import { alpha } from "@material-ui/core";
 
 const pages = ["Categories", "Contact Us", "About US"];
 
@@ -52,15 +59,26 @@ function AppbarDesktop({ matches }) {
         ))}
       </Box>
 
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon sx={{ color: "white" }} />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Search…"
+          inputProps={{ "aria-label": "search" }}
+        />
+      </Search>
+
+      {/* <ListItemButton sx={{ color: "white" }}>
+        <ListItemIcon sx={{ color: "white" }}>
+          <SearchIcon onClick={() => setShowSearchBox(true)} />
+        </ListItemIcon>
+      </ListItemButton> */}
       {/* <MyList type="row">
         <ListItemText primary="Categories" />
         <ListItemText primary="Contact Us" />
         <ListItemText primary="About Us" />
-        <ListItemButton>
-          <ListItemIcon>
-            <SearchIcon onClick={() => setShowSearchBox(true)} />
-          </ListItemIcon>
-        </ListItemButton>
+        
       </MyList> */}
       <Actions matches={matches} />
     </AppbarContainer>
