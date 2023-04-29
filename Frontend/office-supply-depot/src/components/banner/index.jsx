@@ -18,12 +18,12 @@ function Banner() {
     <BannerContainer>
       <BannerImage src="/images/banner/banner.jpg" />
       <BannerContent>
-        <Typography variant="h5">Free Delivery</Typography>
-        <BannerTitle variant="h3">Spend at least $100</BannerTitle>
+        <Typography variant="h5">
+          Free Delivery Service for orders over $100
+        </Typography>
+        <BannerTitle variant="h3">Fast Drone delivery</BannerTitle>
         <BannerDescription variant="subtitle">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-          inventore sit, impedit molestiae neque atque sint sequi natus,
-          aspernatur ex quod esse?
+          Get what you need in within 30 minutes with our fast drone delivery
         </BannerDescription>
       </BannerContent>
     </BannerContainer>

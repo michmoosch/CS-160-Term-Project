@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, InputBase } from "@mui/material";
 import { Box } from "@mui/system";
 import { slideInBottom, slideInRight } from "../../animation";
 import { Colors } from "../theme";
@@ -18,7 +18,7 @@ export const Product = styled(Box)(({ theme }) => ({
 export const ProductImage = styled("img")(({ src, theme }) => ({
   src: `url(${src})`,
   width: "100%",
-  background: Colors.light_gray,
+  // background: Colors.light_gray,
   padding: '10px',
   [theme.breakpoints.down("md")]: {
     // width: "80%", 
@@ -55,7 +55,7 @@ export const ProductAddToCart = styled(Button, {
       show &&
       `${slideInBottom} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
   },
-  background: Colors.secondary,
+  background: "black",
   opacity: 0.9,
 }));
 

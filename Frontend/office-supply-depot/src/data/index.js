@@ -9,45 +9,57 @@
 const products = [
     {
         id: "price_1MyPpLKqLmqC1u8HU4Ro53YA",
-        name: "Super Backpack",
+        name: "Pen cup storage",
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: `${process.env.PUBLIC_URL}/images/products/bag_01.png`
+        weight: 0.7,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/pen cup storage1.jpg`
     },
     {
         id: "price_1MyPqmKqLmqC1u8HlhbwYKNF",
-        name: "File Folder, Letter Size",
+        name: "Black scissor",
         price: 12.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/black scissor.jpg`
     },
     {
         id: "price_1MyPsRKqLmqC1u8HVWSuNqSK",
-        name: "Energizer Industrial Alkaline Batteries",
+        name: "Notebook",
         price: 9.99,
-        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/notebook1.jpg`
     },
     {
         id: "price_1MyPtDKqLmqC1u8H3exTjp5V",
-        name: "Boise X-9 Copy Paper, 92 Brightness",
+        name: "Black stapler",
         price: 44.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/black stapler.jpg`
     },
     {
         id: "price_1MyPtsKqLmqC1u8HijN4AW9P",
-        name: "Best Tote",
+        name: "Red Stapler",
         price: 399.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/red larger stapler.jpg`
     },
     {
         id: "price_1MyPv0KqLmqC1u8HLwrTYuMT",
-        name: "SHarpie Fine Tip Permanent Marker",
+        name: "Sticky note",
         price: 9.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        image: "http://source.unsplash.com/random"
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Resized images/sticky note.jpg`
     }
 ]
 
