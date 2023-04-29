@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import { useEffect } from 'react'
 import { Container } from "@mui/system";
-import { ThemeProvider } from "@mui/system";
+import { ThemeProvider } from "@material-ui/core/styles";
 import theme from './Styles/theme';
 import Checkout from "./pages/checkout";
 import SuccessPay from "./pages/home/SuccessPay";
