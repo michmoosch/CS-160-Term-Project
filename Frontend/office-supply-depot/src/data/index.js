@@ -6,65 +6,179 @@
 // SHarpie Fine Tip Permanent Marker: price_1MyPv0KqLmqC1u8HLwrTYuMT
 
 
-const products = [
+const furnitures = [
     {
-        id: "price_1MyPpLKqLmqC1u8HU4Ro53YA",
+        id: "price_1MyPv0KqLmqC1u8HLwrTYuMT",
+        name: "Black table lamp",
+        price: 34.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 2,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/black lamp.jpg`
+    },
+    {
+        id: "price_1MyPqmKqLmqC1u8HlhbwYKNF",
+        name: "Black single chair",
+        price: 22.49,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 1.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/black single chair.jpg`
+    },
+    {
+        id: "price_1MyPsRKqLmqC1u8HVWSuNqSK",
+        name: "Clock",
+        price: 9.99,
+        description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
+        weight: 1.2,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/clock.jpg`
+    },
+    {
+        id: "price_1MyPtDKqLmqC1u8H3exTjp5V",
+        name: "hanging white lamp",
+        price: 14.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 1.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/hanging white lamp.jpg`
+    },
+    {
+        id: "price_1MyPtsKqLmqC1u8HijN4AW9P",
+        name: "Rotating single chair",
+        price: 39.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 1.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/rotating single chair.jpg`
+    },
+    {
+        id: "price_1MyPv0KqLmqC1u8HLwrTYuMT",
+        name: "white single chair",
+        price: 39.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 1.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Furnitures/white single chair.jpg`
+    }
+]
+
+const officeTools = [
+    {
+        id: "1",
         name: "Pen cup storage",
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 0.7,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/pen cup storage1.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/pen cup storage1.jpg`
     },
     {
-        id: "price_1MyPqmKqLmqC1u8HlhbwYKNF",
+        id: "2",
         name: "Black scissor",
         price: 12.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/black scissor.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/black scissor.jpg`
     },
     {
-        id: "price_1MyPsRKqLmqC1u8HVWSuNqSK",
+        id: "3",
         name: "Notebook",
         price: 9.99,
         description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
         weight: 3.5,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/notebook1.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/notebook1.jpg`
     },
     {
-        id: "price_1MyPtDKqLmqC1u8H3exTjp5V",
+        id: "4",
         name: "Black stapler",
         price: 44.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/black stapler.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/black stapler.jpg`
     },
     {
-        id: "price_1MyPtsKqLmqC1u8HijN4AW9P",
+        id: "5",
         name: "Red Stapler",
         price: 399.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/red larger stapler.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/red larger stapler.jpg`
     },
     {
-        id: "price_1MyPv0KqLmqC1u8HLwrTYuMT",
+        id: "6",
         name: "Sticky note",
         price: 9.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
         quantity: 5,
-        image: `${process.env.PUBLIC_URL}/images/products/Resized images/sticky note.jpg`
+        image: `${process.env.PUBLIC_URL}/images/products/Office tools/sticky note.jpg`
+    }
+]
+
+const electronics = [
+    {
+        id: "7",
+        name: "Black headphone",
+        price: 129.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 0.7,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/black headphone.jpg`
+    },
+    {
+        id: "8",
+        name: "Black mouse",
+        price: 22.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/black mouse.jpg`
+    },
+    {
+        id: "9",
+        name: "Sony Black headphone",
+        price: 339.99,
+        description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/sony black headphone.jpg`
+    },
+    {
+        id: "10",
+        name: "White keyboard",
+        price: 44.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/white keyboard.jpg`
+    },
+    {
+        id: "11",
+        name: "White projector",
+        price: 99.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/white projector.jpg`
+    },
+    {
+        id: "12",
+        name: "Wireless keyboard",
+        price: 39.99,
+        description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
+        weight: 3.5,
+        quantity: 5,
+        image: `${process.env.PUBLIC_URL}/images/products/Electronics/wireless keyboard.jpg`
     }
 ]
 
 function getProductData(id){
-    let productData = products.find(product => product.id === id);
+    let productData = furnitures.find(product => product.id === id);
     
     // If product is not found
     if(!productData){
@@ -80,4 +194,4 @@ function getProductData(id){
     }
 }
 
-export { products,  getProductData };
+export { furnitures as products, officeTools, electronics, getProductData };

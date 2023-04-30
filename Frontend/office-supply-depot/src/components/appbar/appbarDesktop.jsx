@@ -25,7 +25,7 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { alpha } from "@material-ui/core";
 
-const pages = ["Categories", "Contact Us", "About US"];
+const pages = ["Contact Us", "About US"];
 
 function AppbarDesktop({ matches }) {
   const { setShowSearchBox } = useUIContext();
@@ -59,7 +59,7 @@ function AppbarDesktop({ matches }) {
         ))}
       </Box>
 
-      <Search>
+      <Search sx={{ mr: 5 }}>
         <SearchIconWrapper>
           <SearchIcon sx={{ color: "white" }} />
         </SearchIconWrapper>

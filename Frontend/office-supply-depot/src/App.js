@@ -9,7 +9,7 @@ import { Container } from "@mui/system";
 import { ThemeProvider } from "@mui/system";
 import theme from './Styles/theme';
 import Checkout from "./pages/checkout";
-import SuccessPay from "./pages/home/SuccessPay";
+import SuccessPay from "./pages/checkout/SuccessPay";
 import Admin from "./pages/admin";
 import ProductsAdmin from "./components/admin/productsAdmin";
 

@@ -1,6 +1,5 @@
 import React from "react";
 import Appbar from "./../../components/appbar";
-import ResponsiveAppBar from "../../components/appbar/ResponsisveAppBar";
 import Banner from "../../components/banner";
 import Promotions from "../../components/promotions";
 import Products from "../../components/products";
@@ -18,8 +17,12 @@ const Home = () => {
         <Appbar />
         <Banner />
         <Promotions />
-        <Box display="flex" justifyContent={"center"} sx={{ p: 4 }}>
-          <Typography variant="h4">Our Products</Typography>
+        <Box
+          display="flex"
+          justifyContent={"center"}
+          sx={{ p: 4, mt: 5, background: "grey" }}
+        >
+          <Typography variant="h3">Our Products</Typography>
         </Box>
         <Products />
         <AppDrawer />

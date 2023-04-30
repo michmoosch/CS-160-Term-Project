@@ -1,6 +1,6 @@
 import { Box, Button, Drawer, useMediaQuery } from "@mui/material";
 import { Colors } from "../../Styles/theme";
-import React from "react";
+import React, { useState } from "react";
 import { useUIContext } from "../../context/ui";
 import { useTheme } from "@material-ui/core";
 import Avatar from "@mui/material/Avatar";
@@ -12,6 +12,8 @@ function Cart() {
   const { cart, showCart, setShowCart } = useUIContext();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
+  // const [isLoggedIn, setLoggedIn] = useState(false);
+  // //let isLoggedIn = ...
 
   const checkout = async () => {
     await fetch("http://localhost:4000/checkout", {
