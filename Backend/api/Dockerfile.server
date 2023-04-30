@@ -3,8 +3,9 @@ FROM python:3.10.5
 WORKDIR /osd
 
 RUN mkdir ./api
-COPY requirements.txt __init__.py .env app.py config.py wsgi.py models.py ./api
+COPY requirements.txt __init__.py app.py config.py wsgi.py models.py ./api
 RUN pip install -r ./api/requirements.txt
-ENV SQLALCHEMY_DATABASE_URI mysql+pymysql://root:password@db/osd_db
+ENV SQLALCHEMY_DATABASE_URI mysql+pymysql://root:password@db:3307/osd_db
+ENV JWT_SECRET_KEY some-random-key
 
 CMD ["gunicorn", "--access-logfile", "-", "-b", ":5000", "api.wsgi:app"]

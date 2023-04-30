@@ -32,31 +32,6 @@ CREATE TABLE Product(
         ON DELETE CASCADE
 );
 
-CREATE TABLE ShoppingSession(
-    ssid Integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    uid Integer UNIQUE,
-    created_at TIMESTAMP,
-    modifted_at TIMESTAMP,
-    FOREIGN KEY(uid) 
-        REFERENCES user(uid)
-        ON DELETE CASCADE
- );
-
-CREATE TABLE Cart(
-    cartId Integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    ssid Integer UNIQUE NOT NULL,
-    prodid Integer UNIQUE,
-    quantity Integer,
-    created_at TIMESTAMP,
-    modifted_at TIMESTAMP,
-    FOREIGN KEY(ssid) 
-        REFERENCES ShoppingSession(ssid)
-        ON DELETE CASCADE,
-    FOREIGN KEY(prodid)
-        REFERENCES product(prodid)
-        ON DELETE CASCADE
-);
-
 CREATE TABLE paymentDetail(
     paymentId Integer AUTO_INCREMENT PRIMARY Key,
     amount Double,

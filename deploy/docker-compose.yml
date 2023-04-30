@@ -1,17 +1,15 @@
 services:
-  client:
-    build:
-      context: ../Frontend/office-supply-depot
-      dockerfile: Dockerfile.client
-#    volumes:
-#    - ../Frontend/office-supply-depot:/osd
-#    - /osd/node_modules
-    depends_on:
-    - server
-    - db
+  db:
+    volumes:
+      - ../Backend/api/sql:/docker-entrypoint-initdb.d
+    image: mysql:8
+    hostname: db
     restart: always
-    ports: 
-      - "80:80"
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_TCP_PORT: 3307
+      MYSQL_ROOT_PASSWORD: password
   server:
     build:
       context: ../Backend/api
@@ -20,13 +18,13 @@ services:
     hostname: server
     depends_on:
     - db
-  db:
+  client:
     build:
-      context: ../Backend/api
-      dockerfile: Dockerfile.db
-    image: mysql:8
+      context: ../Frontend/office-supply-depot
+      dockerfile: Dockerfile.client
+    depends_on:
+    - server
+    - db
     restart: always
-#    ports:
-#      - "3308:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
+    ports: 
+      - "80:80"
