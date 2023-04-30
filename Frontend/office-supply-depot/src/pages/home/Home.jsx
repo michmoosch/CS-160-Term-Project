@@ -22,7 +22,7 @@ const Home = () => {
           justifyContent={"center"}
           sx={{ p: 4, mt: 5, background: "grey" }}
         >
-          <Typography variant="h3">Our Products</Typography>
+          <Typography variant="h3">Products</Typography>
         </Box>
         <Products />
         <AppDrawer />
