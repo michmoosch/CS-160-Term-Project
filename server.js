@@ -20,7 +20,7 @@ app.use(express.json());
 app.post("/checkout", async (req, res) =>{
 
     
-    console.log(`re.body: ${req.body.cart}`);
+    // console.log(`re.body: ${req.body.cart}`);
     const items = req.body.cart;
     let lineItems = [];
     items.forEach(item => {
