@@ -1,9 +1,10 @@
-from api.models import User, Product, Cart, db
+from api.models import User, PaymentDetail, OrderDetail, Product, Cart, db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
+
 
 
 route_bp = Blueprint("route_bp", __name__)
@@ -44,9 +45,44 @@ def login():
                 return {"msg": "User successfully logged in", "access_token": token}
         return {"msg": "Incorrect email or password"}, 400
     
+# -------------------------------------------------------- #
+# Profile Managements
+
+@route_bp.route('/api/user/profile', methods=['PUT'])
+def update_profile():
+    if request.method == 'PUT':
+        new_data = request.get_json()
+        email = new_data['email']
+        fname = new_data['fname']
+        lname = new_data['lname']
+        address = new_data['address']
+        if db.session.execute(db.select(User).where(User.email == email)).scalar() is not None:
+            instance = User.query().filter(User.email==email)
+            data = instance.data
+            data["fname"] = fname
+            data["lname"] = lname
+            data["address"] = address
+            instance.data = data
+            flag_modified(instance, "data")     # Work without this line?
+            db.session.merge(instance)
+            db.session.flush()
+            db.session.commit()
+            return {
+                        'data': [{
+                            "email": instance.email,
+                            "fname": instance.fname,
+                            "lname": instance.lname,
+                            "address" : instance.address,
+                        }],
+                        'msg': 'Update Successfully'
+                    }
+        else:
+            {"msg": "User doesn't exist"}
+
+
 
 @route_bp.route('/api/users', methods=['GET'])
-@jwt_required()
+@jwt_required
 def users_list():
     if request.method == 'GET':
         identity = get_jwt_identity()
@@ -158,14 +194,17 @@ def user_details(uid):
             return {"msg": "User doesn't exist"}, 404
 
 
+# -------------------------------------------------------- #
+# Product Management
+
 # Addprod page post request ERROR 
 # category = {'1': 'Paper Product', 
 #             '2': 'Art Supplies',
 #             '3': 'Computer/Print Supplies',
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
-@route_bp.route('/api/Addprod', methods=['POST'])     # ADD PRODUCT PAGE
-@jwt_required()
+@route_bp.route('/api/products/add', methods=['POST'])     # ADD PRODUCT PAGE
+@jwt_required
 def addProd():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -179,17 +218,18 @@ def addProd():
         prodUnitPrice = data['unitPrice']
         prodUnitInStock = data['unitInStock']
         prodUnitWeight = data['unitWeight']
+        categoryId = data['category']
         if db.session.execute(db.select(Product).where(Product.prodid == prodid)).scalar() is None:    # check if user already exists
-            product = Product(prodid=prodid, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight)
+            product = Product(prodid=prodid, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight, categoryId=categoryId)
             db.session.add(product)
             db.session.commit()
             return {"msg": "Product added successfully"}
         else:
             return {"msg": "Product already exists"}
         
-# TODO : Frontend not connected
-@route_bp.route('/api/updateprod', methods=['POST'])
-@jwt_required()
+        
+@route_bp.route('/api/products/update', methods=['POST'])
+@jwt_required
 def updateproduct():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -221,9 +261,9 @@ def updateproduct():
             return {"msg": "Unable to find the product with given product ID."}
 
 
-# Delete an item from database
-@route_bp.route('/api/deleteprod', methods=['POST'])
-@jwt_required()
+# Delete an Product Item from database
+@route_bp.route('/api/products/delete', methods=['POST'])
+@jwt_required
 def delproduct():
     if request.method == 'POST':
         identity = get_jwt_identity()
@@ -239,33 +279,35 @@ def delproduct():
         else:
             return {"msg": "No item has found"}
 
-# Input prod ID
-@route_bp.route('/api/add_to_cart', methods=['POST'])
-def addCartItem():
-    if request.method == 'POST':
-        data = request.get_json()
-        ssid = data['sessionId']
-        prodid = data['id']
-        quantity = data['quantity']
-        try:
-            cart = Cart(ssid=ssid, prodid=prodid, quantity=quantity, created_at=datetime.now())
-            db.session.add(cart)
-            db.session.commit()
-            return {"msg": "Item added to Cart"}
-        except:
-            return {"msg": "Product ID does not exists"}
 
-@route_bp.route('/api/remove_from_cart', methods=['PUT'])
-def delCartItem():
-    if request.method == 'PUT':
-        data = request.get_json()
-        if db.session.execute(db.select(Cart).where(Cart.prodid==id)).scalar() is not None:
-            Cart.query.filter(Cart.prodid==id).delete()
-            db.seesion.commit()
-            return {'msg': "Product has been deleted from cart"}
-        else:
-            return {'msg': 'Error in delecting product'}
+# @route_bp.route('/xxx', methods=['GET'])
+# def display_prod():
+    
 
+# -------------------------------------------------------- #
+# Order Functions
+
+# Item list from strike?
+# @route_bp.route('/xxx', method=['POST'])
+# def order_item():
+#     if request.method == 'POST':
+#         return None
+
+
+# @route_bp.route('/xxx', methods=['POST'])
+# def new_order():
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         uid = data['uid']
+#         total = data['total']
+#         deliveryMethod = data['deliverMethod']
+#         try:
+#             order = OrderDetail(uid=uid, total=total, deliveryMethod=deliveryMethod)
+#             db.session.add(order)
+#             db.session.commit()
+#             return {"msg": "Order Completed"}
+#         except:
+#             return {"msg": "Order Failed"}
 
 
 @route_bp.route('/api/products', methods=['GET'])
@@ -349,20 +391,19 @@ def product_list():
 
 @route_bp.route('/api/products/<prodid>', methods=['GET'])
 def product_details(prodid):
-    if request.method == 'GET':
-        product = db.session.execute(db.select(Product)
-                                .where(Product.prodid == prodid)).scalar_one()
-        if product is not None:
-            return {
-                        'data': [{
-                                "prodid": product.prodid,
-                                "prodName": product.prodName,
-                                "prodDescip": product.prodDescip,
-                                "prodUnitPrice": product.prodUnitPrice,
-                                "prodUnitInStock": product.prodUnitInStock,
-                                "prodUnitWeight": product.prodUnitWeight
-                        }],
-                        'msg': 'Found product'
-                    }
-        else:
-            return {'data': [], "msg": "Product doesn't exist"}, 404
+    product = db.session.execute(db.select(Product)
+                              .where(Product.prodid == prodid)).scalar_one()
+    if product is not None:
+        return {
+                    'data': [{
+                            "prodid": product.prodid,
+                            "prodName": product.prodName,
+                            "prodDescip": product.prodDescip,
+                            "prodUnitPrice": product.prodUnitPrice,
+                            "prodUnitInStock": product.prodUnitInStock,
+                            "prodUnitWeight": product.prodUnitWeight
+                    }],
+                    'msg': 'Found product'
+                }
+    else:
+        return {'data': [], "msg": "Product doesn't exist"}, 404
