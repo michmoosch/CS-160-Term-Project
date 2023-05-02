@@ -5,6 +5,7 @@ ENV PATH node_modules/.bin:$PATH
 COPY package.json package-lock.json ./
 COPY src ./src
 COPY public ./public
+RUN npm config set legacy-peer-deps true
 RUN npm install
 RUN npm run build
 

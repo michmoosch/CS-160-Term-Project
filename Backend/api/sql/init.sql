@@ -48,7 +48,7 @@ CREATE TABLE Driver(
     status ENUM('Active', 'In Progress') default 'Active', 
     Address ENUM('Washington Sq, San Jose, CA 95192', '150 W San Carlos St, San Jose, CA 95113') default 'Washington Sq, San Jose, CA 95192', 
     orderDetailId Integer UNIQUE,
-    FOREIGN KEY(orderDetailId) REFERENCES OrderDetail(orderDetailId)
+    FOREIGN KEY(orderDetailId) REFERENCES OrderDetail(orderDetailId) ON DELETE SET NULL
 );
 
 
