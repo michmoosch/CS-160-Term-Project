@@ -9,6 +9,7 @@ from sqlalchemy.orm.attributes import flag_modified
 
 
 route_bp = Blueprint("route_bp", __name__)
+stripe.api_key = "sk_test_51Mw15WKqLmqC1u8HsIzzCHDVltosxOOglnfEYO8HqoikByssoGUNUAyTQpEo6nOwan0lsr3F5K7bJo3xQJA1fuKf00JePj8g4L"
 
 
 #@route_bp.errorhandler(404)
