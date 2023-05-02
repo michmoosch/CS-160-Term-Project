@@ -12,8 +12,8 @@ const furnitures = [
         name: "Black table lamp",
         price: 34.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
-        weight: 2,
-        quantity: 5,
+        weight: 10,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Furnitures/black lamp.jpg`
     },
     {
@@ -22,7 +22,7 @@ const furnitures = [
         price: 22.49,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 1.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Furnitures/black single chair.jpg`
     },
     {
@@ -40,7 +40,7 @@ const furnitures = [
         price: 14.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 1.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Furnitures/hanging white lamp.jpg`
     },
     {
@@ -49,7 +49,7 @@ const furnitures = [
         price: 39.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 1.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Furnitures/rotating single chair.jpg`
     },
     {
@@ -58,7 +58,7 @@ const furnitures = [
         price: 39.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 1.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Furnitures/white single chair.jpg`
     }
 ]
@@ -70,7 +70,7 @@ const officeTools = [
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 0.7,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/pen cup storage1.jpg`
     },
     {
@@ -79,7 +79,7 @@ const officeTools = [
         price: 12.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/black scissor.jpg`
     },
     {
@@ -88,7 +88,7 @@ const officeTools = [
         price: 9.99,
         description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/notebook1.jpg`
     },
     {
@@ -97,7 +97,7 @@ const officeTools = [
         price: 44.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/black stapler.jpg`
     },
     {
@@ -106,7 +106,7 @@ const officeTools = [
         price: 29.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/red larger stapler.jpg`
     },
     {
@@ -115,7 +115,7 @@ const officeTools = [
         price: 9.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Office tools/sticky note.jpg`
     }
 ]
@@ -127,7 +127,7 @@ const electronics = [
         price: 129.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 0.7,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/black headphone.jpg`
     },
     {
@@ -136,7 +136,7 @@ const electronics = [
         price: 22.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/black mouse.jpg`
     },
     {
@@ -145,7 +145,7 @@ const electronics = [
         price: 339.99,
         description: "Beautiful and practical perfect for journaling, note-taking, and creative expression. Durable cover and high-quality paper ensure a lasting companion.",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/sony black headphone.jpg`
     },
     {
@@ -154,7 +154,7 @@ const electronics = [
         price: 44.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/white keyboard.jpg`
     },
     {
@@ -163,7 +163,7 @@ const electronics = [
         price: 99.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/white projector.jpg`
     },
     {
@@ -172,7 +172,7 @@ const electronics = [
         price: 39.99,
         description: "Torem ipsum dolor sit amet, consectetur adipisicing elitsed do eiusmo tempor incididunt ut labore et dolore magna",
         weight: 3.5,
-        quantity: 5,
+        // quantity: 5,
         image: `${process.env.PUBLIC_URL}/images/products/Electronics/wireless keyboard.jpg`
     }
 ]
@@ -193,5 +193,35 @@ function getProductData(id){
     return productData;
     }
 }
+
+// let prod = getProductData2();
+// // prod = []
+
+// async function getProductData2(){
+    
+//     const url = "http://127.0.0.1:5000/products";
+//     const customHeader = {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
+
+//     return axios
+//       .get(url, customHeader)
+//       .then((res) => {
+//         if (res.status == 200) {
+//           console.log("Success!");
+//           console.log(res.data)
+//           return res.data
+//         }
+//       })
+//       .catch((err) => {
+//         return {
+//           status: err.response ? err.response.status : 0,
+//           data: {},
+//           error: err.message,
+//         };
+//       });
+// }
 
 export { furnitures as products, officeTools, electronics, getProductData };

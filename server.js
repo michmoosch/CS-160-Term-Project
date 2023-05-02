@@ -17,6 +17,8 @@ app.use(cors())
 app.use(express.static("public"));
 app.use(express.json());
 
+//const session;
+
 app.post("/checkout", async (req, res) =>{
 
     
@@ -33,16 +35,18 @@ app.post("/checkout", async (req, res) =>{
         )
     });
 
-    const session = await stripe.checkout.sessions.create({
+    let session = await stripe.checkout.sessions.create({
         line_items: lineItems,
         mode: 'payment',
         success_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/'
+        cancel_url: 'http://localhost:3000/',
     });
 
+    
     res.send(JSON.stringify({
         url: session.url
     }))
 });
+// console.log(`session: ${session}`);
 
 app.listen(4000, () => console.log("Listen on port 4000"));

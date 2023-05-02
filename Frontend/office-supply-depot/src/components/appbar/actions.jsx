@@ -24,6 +24,7 @@ import Login from "../../pages/login/Login";
 import Signup from "../../pages/signup/Signup";
 import Badge from "@mui/material/Badge";
 import { useUIContext } from "../../context/ui";
+import { Link } from "react-router-dom";
 
 function Actions({ matches }) {
   const { cart, setShowCart } = useUIContext();
@@ -33,7 +34,7 @@ function Actions({ matches }) {
 
   //let isLoggedIn = ...
 
-  const settings = ["Profile", "Logout"];
+  const settings = ["profile", "logout"];
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -78,7 +79,10 @@ function Actions({ matches }) {
         >
           {settings.map((setting) => (
             <MenuItem key={setting} onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">{setting}</Typography>
+              <Typography textAlign="center">
+                <Link to={`/${setting}`} />
+                {setting}
+              </Typography>
             </MenuItem>
           ))}
         </Menu>

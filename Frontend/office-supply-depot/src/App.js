@@ -12,7 +12,11 @@ import Checkout from "./pages/checkout";
 import SuccessPay from "./pages/checkout/SuccessPay";
 import Admin from "./pages/admin";
 import ProductsAdmin from "./components/admin/productsAdmin";
-// import Profile from "./pages/profile";
+import Profile from "./pages/profile";
+
+function Map() {
+  return <iframe title="Map" src="/map.html" />;
+}
 
 function App() {
 
@@ -35,7 +39,8 @@ function App() {
             <Route path="success" element={<SuccessPay/>}/>
             <Route path="cancel" element={<Home/>}/>
             <Route path="products" element={<ProductsAdmin/>}/>
-            {/* <Route path="profile" element={<Profile/>}/> */}
+            <Route path="profile" element={<Profile/>}/>
+            <Route path="map" element={<Map />} />
           </Routes>
         </BrowserRouter>
       </Container>

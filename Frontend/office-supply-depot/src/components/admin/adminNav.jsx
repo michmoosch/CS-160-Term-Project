@@ -15,7 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { AppbarHeader } from "../../Styles/appbar";
 import { Link } from "react-router-dom";
 
-const pages = ["orders", "products"];
+const pages = ["orders", "products", "delivery"];
 const settings = ["Profile", "Logout"];
 
 function AdminNav() {

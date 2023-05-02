@@ -25,7 +25,7 @@ import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { alpha } from "@material-ui/core";
 
-const pages = ["Contact Us", "About US"];
+const pages = ["Location"];
 
 function AppbarDesktop({ matches }) {
   const { setShowSearchBox } = useUIContext();
@@ -54,7 +54,9 @@ function AppbarDesktop({ matches }) {
               },
             }}
           >
-            {page}
+            <Link to="/map" target="_blank">
+              {page}
+            </Link>
           </Button>
         ))}
       </Box>

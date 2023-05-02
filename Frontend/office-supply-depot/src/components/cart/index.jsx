@@ -1,4 +1,12 @@
-import { Box, Button, Drawer, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  ButtonGroup,
+  Button,
+  Drawer,
+  useMediaQuery,
+  MenuItem,
+  Menu,
+} from "@mui/material";
 import { Colors } from "../../Styles/theme";
 import React, { useState } from "react";
 import { useUIContext } from "../../context/ui";
@@ -7,13 +15,49 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
 
 function Cart() {
-  const { cart, showCart, setShowCart } = useUIContext();
+  const { cart, showCart, setShowCart, setCart } = useUIContext();
+  const [itemQuantity, setItemQuantity] = useState(1);
+  const settings = ["dropoff", "pick "];
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
   // const [isLoggedIn, setLoggedIn] = useState(false);
   // //let isLoggedIn = ...
+
+  const openMap = () => {
+    window.open(
+      "/CS-160-Term-Project/Frontend/office-supply-depot/src/pages/customerMap/index.html",
+      "_blank"
+    );
+  };
+
+  function decreaseQuantity(itemId) {
+    const itemIndex = cart.findIndex((item) => item.id === itemId);
+    if (cart[itemIndex].quantity > 1) {
+      const updatedCart = [...cart];
+      updatedCart[itemIndex].quantity -= 1;
+      setCart(updatedCart);
+    }
+  }
+
+  function increaseQuantity(itemId) {
+    const itemIndex = cart.findIndex((item) => item.id === itemId);
+    if (cart[itemIndex].quantity < 10) {
+      const updatedCart = [...cart];
+      updatedCart[itemIndex].quantity += 1;
+      setCart(updatedCart);
+    }
+  }
+
+  function getTotalWeight() {
+    let totalWeight = 0;
+    cart.forEach((item) => {
+      totalWeight += item.weight * item.quantity;
+    });
+    return totalWeight.toFixed(2);
+  }
 
   const checkout = async () => {
     await fetch("http://localhost:4000/checkout", {
@@ -53,9 +97,19 @@ function Cart() {
           )}
         </Box>
         <Typography variant="body1" justifyContent={"end"}>
-          {item.price}
+          ${item.price}
+        </Typography>
+        <Typography variant="body1" justifyContent={"end"}>
+          weight: {item.weight.toFixed(2)} lbs
         </Typography>
       </Box>
+      <Box>
+        <Typography variant="h6">Quantity: {item.quantity}</Typography>
+        <Button onClick={() => decreaseQuantity(item.id)}>-</Button>
+        <Button onClick={() => increaseQuantity(item.id)}>+</Button>
+      </Box>
+      {/* cart = [{id: 1, name: "item1", price: 1, quantity: 1}, {id: 2, name: "item2", price: 2, quantity: 2}}] */}
+
       {!matches && (
         <Typography variant="subtitle2">{item.description}</Typography>
       )}
@@ -99,6 +153,32 @@ function Cart() {
           >
             {cartContent}
           </Paper>
+
+          <Box>
+            <Typography variant="h6">
+              Total weight: {getTotalWeight()} lbs
+            </Typography>
+            <Typography variant="h6">
+              Total: $
+              {cart.reduce((a, b) => a + b.price * b.quantity, 0).toFixed(2)}
+            </Typography>
+          </Box>
+
+          {getTotalWeight() < 15 && (
+            // Allow the user to choose between a a drone delivery or a truck delivery
+
+            // <button onClick={openMap}>Open Map</button>
+
+            <Button variant="contained">
+              {/* <td onClick={() => window.open("./index.html", "_blank")}>
+                Pickup
+              </td> */}
+              <Link to="/map" target="_blank">
+                Pickup
+              </Link>
+            </Button>
+          )}
+
           <Button
             onClick={checkout}
             sx={{ mt: 4 }}
@@ -123,6 +203,7 @@ function Cart() {
           </Typography>
         </Box>
       )}
+
       <Button onClick={() => setShowCart(false)}>Close</Button>
     </Drawer>
   );

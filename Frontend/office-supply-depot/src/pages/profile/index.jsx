@@ -149,12 +149,12 @@ function Profile() {
 
             <input type="button" class="Btn cancel" value="Cancel" />
             <input type="submit" class="Btn" value="Save Changes" />
-            {/* <input
+            <input
               type="Btn"
               class="delete-btn"
               value="Delete Profile"
-              onClick={handleDelete}
-            /> */}
+              // onClick={handleDelete}
+            />
           </form>
         </div>
       </div>
