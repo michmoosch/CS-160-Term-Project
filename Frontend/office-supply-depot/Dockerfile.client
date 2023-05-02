@@ -11,4 +11,4 @@ RUN npm run build
 # Build nginx reverse proxy
 FROM nginx:stable-alpine
 COPY --from=build-step /osd/build /usr/share/nginx/html
-COPY deploy/nginx.default.conf /etc/nginx/conf.d/default.conf
+COPY ../../deploy/nginx.default.conf /etc/nginx/conf.d/default.conf

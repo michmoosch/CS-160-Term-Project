@@ -1,8 +1,8 @@
-from api.models import User, PaymentDetail, OrderDetail, Product, Cart, db
-from datetime import datetime
+from api.models import User, Product, Category, db
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, request
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
 
 
@@ -14,7 +14,7 @@ route_bp = Blueprint("route_bp", __name__)
 #def not_found(e):
 #    return app.send_static_file('index.html')
 
-
+# Register user (ie. create non-admin user)
 @route_bp.route('/api/register', methods=['POST'])
 def register():
     if request.method == 'POST':
@@ -31,23 +31,40 @@ def register():
         else:
             return {"msg": "User already exists"}, 400
 
-
+# Login user
 @route_bp.route('/api/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         data = request.get_json()
         email = data['email']
         pwd = data['userPsw']
-        db_pwd = db.session.execute(db.select(User.pwd).where(User.email == email)).scalar()
-        if db_pwd is not None:
-            if check_password_hash(db_pwd, pwd):
-                token = create_access_token(identity=email)
-                return {"msg": "User successfully logged in", "access_token": token}
+        user = db.session.execute(db.select(User).where(User.email == email)).scalar()
+        if user is not None:
+            if check_password_hash(user.pwd, pwd):
+                access_token = create_access_token(identity=user.uid, fresh=True)
+                refresh_token = create_refresh_token(identity=email)
+                return {"data":[{"access_token": access_token,
+                                 "refresh_token": refresh_token,
+                                 "isAdmin": user.isAdmin}],
+                        "token_expiration": datetime.now() + timedelta(hours=1),
+                        "uid": user.uid,
+                        "msg": "User successfully logged in"}
         return {"msg": "Incorrect email or password"}, 400
+
+# Refresh expiring access token    
+@route_bp.route('/api/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity, fresh=False)
+    refresh_token = create_refresh_token(identity=identity)
+    return {"access_token": access_token, "refresh_token": refresh_token}
     
 # -------------------------------------------------------- #
 # Profile Managements
 
+# Redundant? PUT /api/users/<uid> already updates user
+# Update user info
 @route_bp.route('/api/user/profile', methods=['PUT'])
 def update_profile():
     if request.method == 'PUT':
@@ -80,14 +97,14 @@ def update_profile():
             {"msg": "User doesn't exist"}
 
 
-
+# Retrieve list of users
 @route_bp.route('/api/users', methods=['GET'])
-@jwt_required
+@jwt_required()
 def users_list():
     if request.method == 'GET':
         identity = get_jwt_identity()
         isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
-        if(not isAdmin):
+        if(isAdmin == "False"):
             return {"msg": "Unauthorized to access"}, 401
         uid = request.args.get('uid')
         email = request.args.get('email')
@@ -153,9 +170,15 @@ def users_list():
         else:
             return {'data': [], "msg": "No results for given query"}, 404
         
-
+# GET: Retrieve user details (ie. for profile page)
+# PUT: Update user details
 @route_bp.route('/api/users/<uid>', methods=['GET', 'PUT'])
+@jwt_required()
 def user_details(uid):
+    identity = get_jwt_identity()
+    db_identity = db.session.execute(db.select(User).where(User.email == identity)).scalar()
+    if(db_identity.isAdmin == "True" or db_identity.uid == uid):
+        return {"msg": "Unauthorized to access"}, 401
     if request.method == 'GET':
         user = db.session.execute(db.select(User)
                                     .where(User.uid == uid)).scalar_one()
@@ -166,6 +189,8 @@ def user_details(uid):
                             "email": user.email,
                             "fname": user.fname,
                             "lname": user.lname,
+                            "address": user.address,
+                            "isAdmin": user.isAdmin
                         }],
                         'msg': 'Found user'
                     }
@@ -173,21 +198,27 @@ def user_details(uid):
             return {'data': [], "msg": "User doesn't exist"}, 404
     if request.method == 'PUT':
         user = db.session.execute(db.select(User)
-                                    .where(User.uid == uid)).scalar_one()
+                                    .where(User.uid == uid)).scalar_one_or_none()
         if user is not None:
             data = request.get_json()
             email = data['email']
             password = generate_password_hash(data['userPsw'])
             fname = data['firName']
             lname = data['lstName']
-            if email:    
+            address = data['address']
+            if email != "":    
                 User.email = email
-            if password:    # TODO: verify pwd change by inputting old pwd
-                User.pwd = password
-            if fname:    
+            if password != "":    # TODO: verify pwd change by inputting old pwd
+                if user.pwd == password:
+                    User.pwd = password
+                else:
+                    return {"msg": "Incorrect password"}, 401
+            if fname != "":    
                 User.fname = fname
-            if lname:    
+            if lname != "":    
                 User.lname = lname
+            if address != "":
+                User.address = address
             db.session.commit()
             return {"msg": "User successfully updated"}
         else:
@@ -204,12 +235,12 @@ def user_details(uid):
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
 @route_bp.route('/api/products/add', methods=['POST'])     # ADD PRODUCT PAGE
-@jwt_required
+@jwt_required()
 def addProd():
     if request.method == 'POST':
         identity = get_jwt_identity()
         isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
-        if(not isAdmin):
+        if(isAdmin == "False"):
             return {"msg": "Unauthorized to access"}, 401
         data = request.get_json()
         prodid = data['id']
@@ -226,59 +257,6 @@ def addProd():
             return {"msg": "Product added successfully"}
         else:
             return {"msg": "Product already exists"}
-        
-        
-@route_bp.route('/api/products/update', methods=['POST'])
-@jwt_required
-def updateproduct():
-    if request.method == 'POST':
-        identity = get_jwt_identity()
-        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
-        if(not isAdmin):
-            return {"msg": "Unauthorized to access"}, 401
-        newData = request.get_json()
-        id = newData['id']
-        name = newData['name']
-        des = newData['descrip']
-        price = newData['unitPrice']
-        inStock = newData['unitInStock']
-        weight = newData['unitWeight']
-        if db.session.execute(db.select(Product).where(Product.prodId == id)).scalar() is not None:    # check if product exists
-            instance = Product.query().filter(Product.prodId==id)
-            data = instance.data
-            data["prodName"] = name
-            data["prodDescip"] = des
-            data["prodUnitPrice"] = price
-            data["prodUnitInStock"] = inStock
-            data["prodUnitWeight"] = weight
-            instance.data = data
-            flag_modified(instance, "data")     # Work without this line?
-            db.session.merge(instance)
-            db.session.flush()
-            db.session.commit()
-            return {"msg": "Product updated successfully."}
-        else:
-            return {"msg": "Unable to find the product with given product ID."}
-
-
-# Delete an Product Item from database
-@route_bp.route('/api/products/delete', methods=['POST'])
-@jwt_required
-def delproduct():
-    if request.method == 'POST':
-        identity = get_jwt_identity()
-        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
-        if(not isAdmin):
-            return {"msg": "Unauthorized to access"}, 401
-        newData = request.get_json()
-        id = newData['id']
-        if db.session.execute(db.select(Product).where(Product.prodid==id)).scalar() is not None:
-            Product.query.filter(Product.prodId == id).delete()
-            db.session.commit()
-            return {"msg": "Product has been deleted"}
-        else:
-            return {"msg": "No item has found"}
-
 
 # @route_bp.route('/xxx', methods=['GET'])
 # def display_prod():
@@ -309,7 +287,7 @@ def delproduct():
 #         except:
 #             return {"msg": "Order Failed"}
 
-
+# Product list + search + filter, good for products page, homepage, search
 @route_bp.route('/api/products', methods=['GET'])
 def product_list():
     if request.method == 'GET':
@@ -320,12 +298,15 @@ def product_list():
         weight_lt = request.args.get('weight_lt')
         in_stock = request.args.get('in_stock')
         sort_by = request.args.get('sort_by')
+        cat = request.args.get('cat')
         options = []
         if search:
             terms = search.split()
             for term in terms:
                 options.append(db.or_(Product.prodName.like("%%%s%%" % term),      # search in name
                                       Product.prodDescip.like("%%%s%%" % term)))   # search in desc
+        if cat:
+            options.append(Category.name == cat)
         if price_gt:    
             options.append(Product.prodUnitPrice > price_gt)            # greater than price
         if price_lt:    
@@ -370,6 +351,7 @@ def product_list():
         if per_page:
             args['per_page'] = int(per_page)
         products_list = db.paginate(db.select(Product)
+                                    .join(Product.categories)
                                     .where(db.and_(db.true(), *options))
                                     .order_by(*sort_options),
                                     **args)
@@ -381,29 +363,77 @@ def product_list():
                             "prodDescip": product.prodDescip,
                             "prodUnitPrice": product.prodUnitPrice,
                             "prodUnitInStock": product.prodUnitInStock,
-                            "prodUnitWeight": product.prodUnitWeight
+                            "prodUnitWeight": product.prodUnitWeight,
+                            "category": product.categories.name
                         } for product in products_list],
                         'msg': 'Found %d results' % products_list.total
                     }
         else:
             return {'data': [], "msg": "No results for given query"}, 404
 
-
+# Retrieve product details (ie. for product page)
 @route_bp.route('/api/products/<prodid>', methods=['GET'])
 def product_details(prodid):
-    product = db.session.execute(db.select(Product)
-                              .where(Product.prodid == prodid)).scalar_one()
-    if product is not None:
-        return {
-                    'data': [{
-                            "prodid": product.prodid,
-                            "prodName": product.prodName,
-                            "prodDescip": product.prodDescip,
-                            "prodUnitPrice": product.prodUnitPrice,
-                            "prodUnitInStock": product.prodUnitInStock,
-                            "prodUnitWeight": product.prodUnitWeight
-                    }],
-                    'msg': 'Found product'
-                }
-    else:
-        return {'data': [], "msg": "Product doesn't exist"}, 404
+    if request.method == 'GET':
+        product = db.session.execute(db.select(Product)
+                                    .join(Product.categories)
+                                .where(Product.prodid == prodid)).scalar_one()
+        if product is not None:
+            return {
+                        'data': [{
+                                "prodid": product.prodid,
+                                "prodName": product.prodName,
+                                "prodDescip": product.prodDescip,
+                                "prodUnitPrice": product.prodUnitPrice,
+                                "prodUnitInStock": product.prodUnitInStock,
+                                "prodUnitWeight": product.prodUnitWeight,
+                                "category": product.categories.name
+                        }],
+                        'msg': 'Found product'
+                    }
+        else:
+            return {'data': [], "msg": "Product doesn't exist"}, 404
+        
+
+# PUT: Update product details
+# DELETE: Delete product from database
+@route_bp.route('/api/products/<prodid>', methods = ['PUT', 'DELETE'])
+@jwt_required()
+def modify_product(prodid):
+    if request.method == 'DELETE':
+        identity = get_jwt_identity()
+        isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
+        if(isAdmin == "False"):
+            return {"msg": "Unauthorized to access"}, 401
+        newData = request.get_json()
+        id = newData['id']
+        if db.session.execute(db.select(Product).where(Product.prodid==id)).scalar() is not None:
+            Product.query.filter(Product.prodId == id).delete()
+            db.session.commit()
+            return {"msg": "Product has been deleted"}
+        else:
+            return {"msg": "No item has found"}
+    if request.method == 'PUT':
+        newData = request.get_json()
+        id = newData['id']
+        name = newData['name']
+        des = newData['descrip']
+        price = newData['unitPrice']
+        inStock = newData['unitInStock']
+        weight = newData['unitWeight']
+        if db.session.execute(db.select(Product).where(Product.prodId == id)).scalar() is not None:    # check if product exists
+            instance = Product.query().filter(Product.prodId==id)
+            data = instance.data
+            data["prodName"] = name
+            data["prodDescip"] = des
+            data["prodUnitPrice"] = price
+            data["prodUnitInStock"] = inStock
+            data["prodUnitWeight"] = weight
+            instance.data = data
+            flag_modified(instance, "data")     # Work without this line?
+            db.session.merge(instance)
+            db.session.flush()
+            db.session.commit()
+            return {"msg": "Product updated successfully."}
+        else:
+            return {"msg": "Unable to find the product with given product ID."}

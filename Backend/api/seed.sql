@@ -1,4 +1,4 @@
- USE testdb;
+ USE osd_db;
 
  insert into Category(name)
  values("PAPER PRODUCTS"), ("ART SUPPLIES"), ("COMPUTER/PRINT SUPPLIES");
