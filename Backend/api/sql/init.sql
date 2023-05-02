@@ -41,17 +41,6 @@ CREATE TABLE OrderDetail(
     FOREIGN Key(uid) REFERENCES user(uid) ON DELETE CASCADE
 );
 
-CREATE TABLE Driver(
-    driverId Integer AUTO_INCREMENT NOT NULL PRIMARY KEY, 
-    fname VARCHAR(64), 
-    lname VARCHAR(64), 
-    status ENUM('Active', 'In Progress') default 'Active', 
-    Address ENUM('Washington Sq, San Jose, CA 95192', '150 W San Carlos St, San Jose, CA 95113') default 'Washington Sq, San Jose, CA 95192', 
-    orderDetailId Integer UNIQUE,
-    FOREIGN KEY(orderDetailId) REFERENCES OrderDetail(orderDetailId) ON DELETE SET NULL
-);
-
-
 
 # POPULATE WITH DATABASE
 
@@ -62,17 +51,7 @@ VALUES ("admin@osd.com", 'pbkdf2:sha256:260000$07OGspAmld8GbKpj$a2f2d160755b8b72
 
 INSERT INTO Category(name)
 VALUES ('Furniture'), ('Stationary'), ('Art Supplies');
-select * from Category;
 
-INSERT INTO Driver(fname, lname, orderDetailId)
-VALUES
-('DRIVER1', 'L', NULL), 
-('DRIVER2', 'L', NULL),
-('DRIVER3', 'L', NULL),
-('DRIVER4', 'L', NULL),
-('DRIVER5', 'L', NULL),
-('DRIVER6', 'L', NULL);
-SELECT * FROM Driver;
 
 INSERT INTO Product(prodName, prodDescip, prodUnitInStock, prodUnitPrice, prodUnitWeight, categoryId)
 VALUES
@@ -80,4 +59,3 @@ VALUES
 ('File Folder, Letter Size', 'I am Desciption', '5', '12.99', '0.5', '2'),
 ('Energizer Industrial Alkaline Batteries', 'I am Desciption', '50', '9.99', '5', '1'),
 ('Color Pencil', 'I am Desciption', '200', '1.99', '2.0', '3');
-SELECT * FROM Product;
