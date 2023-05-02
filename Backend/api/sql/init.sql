@@ -34,8 +34,6 @@ CREATE TABLE Product(
 CREATE TABLE OrderDetail(
     orderDetailId Integer AUTO_INCREMENT UNIQUE NOT NULL,
     uid Integer NOT NULL,
-    deliveryMethod ENUM('Pickup', 'Truck', 'Drone') NOT NULL,
-    status ENUM('Completed', 'Pending', 'In Progress') default 'Pending',
     created_at TIMESTAMP default NOW(),
     PRIMARY KEY(uid, orderDetailId),
     FOREIGN Key(uid) REFERENCES user(uid) ON DELETE CASCADE
