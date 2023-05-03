@@ -64,23 +64,34 @@ app.post("/login", async (req, res) => {
       res.json({ message: "User does not exist" }, 400);
     }
   });
-
-  app.get("/products", async (req, res) => {
-    const productsQuery = `SELECT * FROM products`;
-    db.query(productsQuery, (err, result) => {
-      res.json(JSON.stringify(result));
-    });
-  });
-
-  // const insertQuery =
-  //   "INSERT INTO users (UserId, UserPsw, UserFirstName, UserLastName, UserEmail) VALUES (?, ?, ?, ?, ?)";
-  // db.query(
-  //   insertQuery,
-  //   [0, userPsw, firName, lstName, email],
-  //   (err, result) => {
-  //     res.json(JSON.stringify(result));
-  //   }
-  // );
 });
+
+app.get("/products", async (req, res) => {
+  const productsQuery = `SELECT * FROM products`;
+  db.query(productsQuery, (err, result) => {
+    res.json(JSON.stringify(result));
+  });
+});
+
+app.get("/products/:id", async (req, res) => {
+  const id = req.query.id;
+  console.log(id)
+  const productsQuery = `SELECT * FROM products WHERE ProductId=?`;
+  db.query(productsQuery, [id], (err, result) => {
+    res.json(JSON.stringify(result));
+  }
+  );
+});
+
+// const insertQuery =
+//   "INSERT INTO users (UserId, UserPsw, UserFirstName, UserLastName, UserEmail) VALUES (?, ?, ?, ?, ?)";
+// db.query(
+//   insertQuery,
+//   [0, userPsw, firName, lstName, email],
+//   (err, result) => {
+//     res.json(JSON.stringify(result));
+//   }
+// );
+
 
 app.listen("3001", () => {});
