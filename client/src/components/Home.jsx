@@ -1,34 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { parseCookie, CATEGORIES } from "./util";
 import Signup from "./Signup";
 import { Link, useNavigate } from "react-router-dom";
-
-const parseCookie = (str) => {
-  let flag = true;
-  let str2 = "";
-  try {
-    // sometimes [1]
-    str2 = str.split(";")[0].split("=")[1];
-  } catch (e) {
-    flag = false;
-  }
-
-  let data = {};
-
-  if(flag){
-    try {
-      data = JSON.parse(str2);
-    } catch (e) {
-      flag = false;
-    }
-  }
-
-  return flag ? data : flag;
-};
 
 const Home = () => {
   const navigate = useNavigate();
   const [itemsInCart, setItemsInCart] = useState(0);
   const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([0]);
 
   const cookie = parseCookie(document.cookie);
   if (!cookie) {
@@ -54,6 +34,45 @@ const Home = () => {
     e.preventDefault();
     document.cookie = "token=; expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
     navigate("/login");
+  };
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+    if (e.target.value == "") {
+      async function getData() {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const obj = JSON.parse(data);
+        setProducts((prev) => obj);
+      }
+      getData();
+    } else {
+      setProducts((prev) => {
+        return prev.filter((product) => {
+          return product.ProductName.toLowerCase().includes(e.target.value);
+        });
+      });
+    }
+  };
+
+  const categoryHandler = (e) => {
+    const val = e.target.value;
+    if (val == 0) {
+      async function getData() {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const obj = JSON.parse(data);
+        setProducts((prev) => obj);
+      }
+      getData();
+    } else {
+      setProducts((prev) => {
+        return prev.filter((product) => {
+          console.log(product.categoryId, val);
+          return product.categoryId == val;
+        });
+      });
+    }
   };
 
   return (
@@ -82,13 +101,43 @@ const Home = () => {
           </ul>
         </div>
       </div>
+
+      <div className="navbar bg-content w-screen flex flex-row items-center justify-center mr-5 pr-5">
+        <div className="form-control w-[200px]">
+          <label className="label"></label>
+          <label className="w-full">
+            <input
+              type="text"
+              placeholder="Search Here"
+              className="input input-bordered"
+              onChange={handleChange}
+            />
+          </label>
+        </div>
+
+        {CATEGORIES &&
+          CATEGORIES.map((category, index) => {
+            return (
+              <button
+                className="btn btn-outline ml-5 mt-4"
+                key={index}
+                value={index}
+                onClick={categoryHandler}
+              >
+                {category}
+              </button>
+            );
+          })}
+      </div>
       {/* Main Content */}
       <div className="container w-screen grid grid-cols-2 gap-4 content">
         {products.length > 0 &&
-          products.map((product) => {
-            
+          products.map((product, index) => {
             return (
-              <div className="card shadow-lg compact bg-base-100 w-[200px] h-[200px]">
+              <div
+                key={index}
+                className="card shadow-lg compact bg-base-100 w-[200px] h-[200px]"
+              >
                 {product.ProductName}
               </div>
             );
