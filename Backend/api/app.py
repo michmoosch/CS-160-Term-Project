@@ -1,13 +1,12 @@
-from api.models import User, Product, Category, db
+from api.models import User, Product, Category, OrderDetail, db
 from api.config import Config
 from datetime import datetime, timedelta
-import stripe
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
 from flask_cors import cross_origin
-
+import stripe
 
 
 route_bp = Blueprint("route_bp", __name__)
@@ -125,6 +124,7 @@ def users_list():
         if per_page:
             args['per_page'] = int(per_page)
         users_list = db.paginate(db.select(User)
+                                    .join(OrderDetail.user)
                                     .where(db.and_(db.true(), *options))
                                     .order_by(*sort_options),
                                     **args)
@@ -135,6 +135,10 @@ def users_list():
                             "email": user.email,
                             "fname": user.fname,
                             "lname": user.lname,
+                            "address": user.address,
+                            "isAdmin": user.isAdmin,
+                            "orderId": OrderDetail.orderDetailId,
+                            "orderCreatedAt": OrderDetail.created_at
                         } for user in users_list],
                         'msg': 'Found %d results' % users_list.total
                     }
@@ -153,6 +157,7 @@ def user_details(uid):
         return {"data": [], "msg": "Unauthorized to access"}, 401
     if request.method == 'GET':
         user = db.session.execute(db.select(User)
+                                    .join(OrderDetail.user)
                                     .where(User.uid == uid)).scalar_one()
         if user is not None:
             return {
@@ -162,7 +167,9 @@ def user_details(uid):
                             "fname": user.fname,
                             "lname": user.lname,
                             "address": user.address,
-                            "isAdmin": user.isAdmin
+                            "isAdmin": user.isAdmin,
+                            "orderId": OrderDetail.orderDetailId,
+                            "orderCreatedAt": OrderDetail.created_at
                         }],
                         'msg': 'Found user'
                     }
@@ -231,6 +238,8 @@ def addProd():
 
 # -------------------------------------------------------- #
 # Order Functions
+
+@route_bp.route('/api/order')
 
 # Item list from strike?
 # @route_bp.route('/xxx', method=['POST'])
@@ -438,6 +447,6 @@ def checkout():
 #@route_bp.route('/api/checkout_success', methods=['POST'])
 #@cross_origin(allow_headers=['Content-Type'])
 #def checkout_success():
-    if request.method == "POST":
-        data = request.get_json()
+#    if request.method == "POST":
+#        data = request.get_json()
         

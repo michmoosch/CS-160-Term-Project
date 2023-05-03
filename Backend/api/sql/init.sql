@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS osd_db;
+CREATE DATABASE osd_db;
 
 USE osd_db;
 
@@ -34,7 +34,7 @@ CREATE TABLE Product(
 );
 
 CREATE TABLE OrderDetail(
-    orderDetailId Integer AUTO_INCREMENT UNIQUE NOT NULL,
+    orderDetailId Integer UNIQUE NOT NULL,
     uid Integer NOT NULL,
     created_at TIMESTAMP default NOW(),
     PRIMARY KEY(uid, orderDetailId),

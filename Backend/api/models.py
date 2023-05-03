@@ -13,6 +13,7 @@ class User(db.Model):
     lname = db.Column(db.VARCHAR(64), nullable=False)
     isAdmin = db.Column(db.Boolean, server_default='FALSE')
     address = db.Column(db.TEXT)
+    orders = db.relationship('OrderDetail', back_populates="user")
 
 class Category(db.Model):
     __tablename__ = "Category"
@@ -37,17 +38,18 @@ class OrderDetail(db.Model):
     __tablename__ = 'OrderDetail'
     orderDetailId = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     uid = db.Column(db.Integer, db.ForeignKey("user.uid", "CASCADE"), primary_key=True)
-    total = db.Column(db.Double)
-    deliveryMethod = db.Column(db.Enum('Truck', 'Pickup', 'Drone'))
-    status = db.Column(db.Enum('Completed', 'In Progress'), default='In Progress')
+#    total = db.Column(db.Double)
+#    deliveryMethod = db.Column(db.Enum('Truck', 'Pickup', 'Drone'))
+#    status = db.Column(db.Enum('Completed', 'In Progress'), default='In Progress')
     created_at = db.Column(db.DateTime())
+    user = db.relationship('User', back_populates='orders')
 
-class OrderItem(db.Model):
-    __tablename__ = 'OrderItem'
-    orderItemId = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quantity = db.Column(db.Integer)
-    OrderDetailId = db.Column(db.Integer, db.ForeignKey("OrderDetail.orderDetailId", "CASCADE"), nullable=False)
-    prodid = db.Column(db.Integer, db.ForeignKey("Product.prodid", "CASCADE"), unique=True, nullable=False)
+#class OrderItem(db.Model):
+#    __tablename__ = 'OrderItem'
+#    orderItemId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#    quantity = db.Column(db.Integer)
+#    OrderDetailId = db.Column(db.Integer, db.ForeignKey("OrderDetail.orderDetailId", "CASCADE"), nullable=False)
+#    prodid = db.Column(db.Integer, db.ForeignKey("Product.prodid", "CASCADE"), unique=True, nullable=False)
 
 class Driver(db.Model):
     __tablename__ = 'Driver'
