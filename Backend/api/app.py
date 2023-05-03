@@ -225,8 +225,9 @@ def addProd():
         prodUnitPrice = data['unitPrice']
         prodUnitInStock = data['unitInStock']
         prodUnitWeight = data['unitWeight']
+        prodStripeId = data['prodStripeId']
         categoryId = data['category']
-        product = Product(prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight, categoryId=categoryId)
+        product = Product(prodName=prodName, prodStripeId=prodStripeId, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight, categoryId=categoryId)
         db.session.add(product)
         db.session.commit()
         return {"msg": "Product added successfully"}
@@ -333,11 +334,13 @@ def product_list():
             return {
                         'data': [{
                             "prodid": product.prodid,
+                            "prodStripeId": product.prodStripeId,
                             "prodName": product.prodName,
                             "prodDescip": product.prodDescip,
                             "prodUnitPrice": product.prodUnitPrice,
                             "prodUnitInStock": product.prodUnitInStock,
                             "prodUnitWeight": product.prodUnitWeight,
+                            "prodImagePath": product.prodImagePath,
                             "category": product.categories.name
                         } for product in products_list],
                         'msg': 'Found %d results' % products_list.total
@@ -357,11 +360,13 @@ def product_details(prodid):
             return {
                         'data': [{
                                 "prodid": product.prodid,
+                                "prodStripeId": product.prodStripeId,
                                 "prodName": product.prodName,
                                 "prodDescip": product.prodDescip,
                                 "prodUnitPrice": product.prodUnitPrice,
                                 "prodUnitInStock": product.prodUnitInStock,
                                 "prodUnitWeight": product.prodUnitWeight,
+                                "prodImagePath": product.prodImagePath,
                                 "category": product.categories.name
                         }],
                         'msg': 'Found product'
@@ -395,6 +400,8 @@ def modify_product(prodid):
         price = newData['unitPrice']
         inStock = newData['unitInStock']
         weight = newData['unitWeight']
+        image = newData['prodImagePath']
+        stripeId = newData['prodStripeId']
         if db.session.execute(db.select(Product).where(Product.prodId == prodid)).scalar() is not None:    # check if product exists
             instance = Product.query().filter(Product.prodId==prodid)
             data = instance.data
@@ -403,6 +410,8 @@ def modify_product(prodid):
             data["prodUnitPrice"] = price
             data["prodUnitInStock"] = inStock
             data["prodUnitWeight"] = weight
+            data["prodStripeId"] = stripeId
+            data["prodImagePath"] = image
             instance.data = data
             flag_modified(instance, "data")     # Work without this line?
             db.session.merge(instance)

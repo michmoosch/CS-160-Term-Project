@@ -24,6 +24,8 @@ CREATE TABLE Product(
     prodUnitPrice DOUBLE NOT NULL,
     prodUnitInStock Integer NOT NULL,
     prodUnitWeight DOUBLE NOT NULL,
+    prodStripeId VARCHAR(64) NOT NULL,
+    prodImagePath VARCHAR(64),
     categoryId Integer,
     FOREIGN KEY(categoryId) REFERENCES Category(categoryId) ON DELETE CASCADE,
     CHECK (prodUnitPrice > 0),
@@ -40,7 +42,7 @@ CREATE TABLE OrderDetail(
 );
 
 
-# POPULATE WITH DATABASE
+# POPULATE WITH DATABASE 
 
 # Admin user
 INSERT INTO User(email, pwd, fname, lname, isAdmin, address)
@@ -51,9 +53,9 @@ INSERT INTO Category(name)
 VALUES ('Furniture'), ('Stationary'), ('Art Supplies');
 
 
-INSERT INTO Product(prodName, prodDescip, prodUnitInStock, prodUnitPrice, prodUnitWeight, categoryId)
+INSERT INTO Product(prodName, prodDescip, prodUnitInStock, prodUnitPrice, prodUnitWeight, prodStripeId, prodImagePath, categoryId)
 VALUES
-('Super Backpack', 'I am Desciption', '10', '129.99', '30', '1'),
-('File Folder, Letter Size', 'I am Desciption', '5', '12.99', '0.5', '2'),
-('Energizer Industrial Alkaline Batteries', 'I am Desciption', '50', '9.99', '5', '1'),
-('Color Pencil', 'I am Desciption', '200', '1.99', '2.0', '3');
+('Super Backpack', 'I am Desciption', '10', '129.99', '30', 'insert stripe id here', 'insert/path/here.png', '1'),
+('File Folder, Letter Size', 'I am Desciption', '5', '12.99', '0.5','insert stripe id here', 'insert/path/here.png', '2'),
+('Energizer Industrial Alkaline Batteries', 'I am Desciption', '50', '9.99', '5', 'insert stripe id here', 'insert/path/here.png', '1'),
+('Color Pencil', 'I am Desciption', '200', '1.99', '2.0', 'insert stripe id here', 'insert/path/here.png', '3');

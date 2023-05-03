@@ -28,6 +28,8 @@ class Product(db.Model):
     prodUnitPrice = db.Column(db.DOUBLE, nullable=False)
     prodUnitInStock = db.Column(db.Integer, nullable=False)
     prodUnitWeight = db.Column(db.DOUBLE, nullable=False)
+    prodStripeId = db.Column(db.VARCHAR(64), nullable=False)
+    prodImagePath = db.Column(db.VARCHAR(64))
     categoryId = db.Column(db.Integer, db.ForeignKey("Category.categoryId", ondelete="CASCADE"), unique=True, nullable=False)
     categories = db.relationship("Category", back_populates="product")
 
