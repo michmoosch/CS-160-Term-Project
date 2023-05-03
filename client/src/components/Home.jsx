@@ -6,19 +6,22 @@ const parseCookie = (str) => {
   let flag = true;
   let str2 = "";
   try {
-    str2 = str.split(";")[1].split("=")[1];
+    // sometimes [1]
+    str2 = str.split(";")[0].split("=")[1];
   } catch (e) {
     flag = false;
   }
-  if (!flag) {
-    return flag;
-  }
+
   let data = {};
-  try {
-    data = JSON.parse(str2);
-  } catch (e) {
-    flag = false;
+
+  if(flag){
+    try {
+      data = JSON.parse(str2);
+    } catch (e) {
+      flag = false;
+    }
   }
+
   return flag ? data : flag;
 };
 
@@ -40,12 +43,8 @@ const Home = () => {
     async function getData() {
       const res = await fetch("/api/products");
       const data = await res.json();
-      let list = [];
-      for (const i in data) {
-        list.push(data[i]);
-      }
-
-      setProducts((prev) => list);
+      const obj = JSON.parse(data);
+      setProducts((prev) => obj);
     }
 
     getData();
@@ -53,7 +52,7 @@ const Home = () => {
 
   const logout = (e) => {
     e.preventDefault();
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "token=; expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
     navigate("/login");
   };
 
@@ -84,11 +83,12 @@ const Home = () => {
         </div>
       </div>
       {/* Main Content */}
-      <div className="container grid grid-cols-3 gap-4">
+      <div className="container w-screen grid grid-cols-2 gap-4 content">
         {products.length > 0 &&
           products.map((product) => {
+            
             return (
-              <div className="card shadow-lg compact bg-base-100 w-[50px] h-[50px]">
+              <div className="card shadow-lg compact bg-base-100 w-[200px] h-[200px]">
                 {product.ProductName}
               </div>
             );
