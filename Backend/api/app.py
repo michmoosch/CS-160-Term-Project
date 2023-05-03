@@ -1,5 +1,6 @@
 from api.models import User, Product, Category, db
 from datetime import datetime, timedelta
+import stripe
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
@@ -8,6 +9,7 @@ from sqlalchemy.orm.attributes import flag_modified
 
 
 route_bp = Blueprint("route_bp", __name__)
+stripe.api_key = "sk_test_51Mw15WKqLmqC1u8HsIzzCHDVltosxOOglnfEYO8HqoikByssoGUNUAyTQpEo6nOwan0lsr3F5K7bJo3xQJA1fuKf00JePj8g4L"
 
 
 #@route_bp.errorhandler(404)
@@ -23,8 +25,9 @@ def register():
         pwd = generate_password_hash(data['userPsw'])
         fname = data['firName']
         lname = data['lstName']
+        address = data['address']
         if db.session.execute(db.select(User).where(User.email == email)).scalar() is None:    # check if user already exists
-            user = User(email=email, pwd=pwd, fname=fname, lname=lname)
+            user = User(email=email, pwd=pwd, fname=fname, lname=lname, address=address)
             db.session.add(user)
             db.session.commit()
             return {"msg": "User registered successfully"}
@@ -45,9 +48,9 @@ def login():
                 refresh_token = create_refresh_token(identity=email)
                 return {"data":[{"access_token": access_token,
                                  "refresh_token": refresh_token,
-                                 "isAdmin": user.isAdmin}],
-                        "token_expiration": datetime.now() + timedelta(hours=1),
-                        "uid": user.uid,
+                                 "isAdmin": user.isAdmin,
+                                 "token_expiration": datetime.now() + timedelta(hours=1),
+                                 "uid": user.uid}],
                         "msg": "User successfully logged in"}
         return {"msg": "Incorrect email or password"}, 400
 
@@ -62,40 +65,6 @@ def refresh():
     
 # -------------------------------------------------------- #
 # Profile Managements
-
-# Redundant? PUT /api/users/<uid> already updates user
-# Update user info
-@route_bp.route('/api/user/profile', methods=['PUT'])
-def update_profile():
-    if request.method == 'PUT':
-        new_data = request.get_json()
-        email = new_data['email']
-        fname = new_data['fname']
-        lname = new_data['lname']
-        address = new_data['address']
-        if db.session.execute(db.select(User).where(User.email == email)).scalar() is not None:
-            instance = User.query().filter(User.email==email)
-            data = instance.data
-            data["fname"] = fname
-            data["lname"] = lname
-            data["address"] = address
-            instance.data = data
-            flag_modified(instance, "data")     # Work without this line?
-            db.session.merge(instance)
-            db.session.flush()
-            db.session.commit()
-            return {
-                        'data': [{
-                            "email": instance.email,
-                            "fname": instance.fname,
-                            "lname": instance.lname,
-                            "address" : instance.address,
-                        }],
-                        'msg': 'Update Successfully'
-                    }
-        else:
-            {"msg": "User doesn't exist"}
-
 
 # Retrieve list of users
 @route_bp.route('/api/users', methods=['GET'])
@@ -437,3 +406,19 @@ def modify_product(prodid):
             return {"msg": "Product updated successfully."}
         else:
             return {"msg": "Unable to find the product with given product ID."}
+
+# Stripe order/checkout
+@route_bp.route('/api/checkout', methods=['POST'])
+def checkout():
+    if request.method == "POST":
+        data = request.get_json()
+        items = data['cart']
+        
+        session = stripe.checkout.Session.create(
+            line_items=[{"price": item.id, "quantity": 1} for item in items],
+            mode="payment",
+            success_url="http://client/success",
+            cancel_url="http://client"
+        )
+        return {"url": session.url}
+        
