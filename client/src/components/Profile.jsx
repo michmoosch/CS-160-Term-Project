@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const cookie = parseCookie(document.cookie);
+  const navigate = useNavigate();
   if (!cookie) {
     navigate("/login");
   }
@@ -67,21 +68,15 @@ const Profile = () => {
 
     editProfile(firstName, lastName, email, address);
 
-
+    navigate("/home")
     // do something with the form data, e.g. send it to a server
-
-
-
-
   };
 
   return (
     <>
-      <div>Welcome, {firstname}</div>
+      <div className="w-full text-center self-center text-4xl">Welcome, {firstname}</div>
 
-      <div className="my-4">
-        <h1 className="text-center">Profile</h1>
-      </div>
+     
 
       <form className="flex flex-col items-center " onSubmit={handleSubmit}>
         <div className="form-control my-4">

@@ -83,12 +83,24 @@ const Home = () => {
       }
       getData();
     } else {
-      setProducts((prev) => {
-        return prev.filter((product) => {
-          // console.log(product.categoryId, val);
-          return product.categoryId == val;
+      async function getData() {
+        const res = await fetch("/api/products");
+        const data = await res.json();
+        const obj = JSON.parse(data);
+        setProducts((prev) => {
+          return prev.filter((product) => {
+            // console.log(product.categoryId, val);
+            return product.categoryId == val;
+          });
         });
-      });
+      }
+      getData();
+      // setProducts((prev) => {
+      //   return prev.filter((product) => {
+      //     // console.log(product.categoryId, val);
+      //     return product.categoryId == val;
+      //   });
+      // });
     }
   };
 
@@ -108,7 +120,10 @@ const Home = () => {
         return update;
       });
     }
-    setItemsInCart((prev) => prev++);
+    setItemsInCart((prev) => {
+      let update = prev + 1;
+      return update;
+    });
     console.log(itemsInCart);
   };
   const decItem = (item) => {
@@ -173,8 +188,8 @@ const Home = () => {
         <div className="flex-1 indicator">
           Welcome, <p className="font-bold ml-1"> {name}</p>
         </div>
-        {isAdmin && <a className="btn btn-primary mx-2" href="http://localhost:8000/?server=mysql_db">Admin</a>}
-        {isAdmin && <a className="btn btn-primary mx-2" href="Driver_Map.html">Driver Map</a>}
+        {isAdmin !=0 && <a className="btn btn-primary mx-2" href="http://localhost:8000/?server=mysql_db">Admin</a>}
+        {isAdmin !=0 && <a className="btn btn-primary mx-2" href="Driver_Map.html">Driver Map</a>}
         <button className="btn" onClick={profile}>
           Profile
         </button>
@@ -271,7 +286,7 @@ const Home = () => {
             const img = imageImports[product.ProductImage];
             // console.log(product)
             return (
-              <div key={index} className="card bg-base-100 w-[200px] h-[200px]">
+              <div key={index} className="card bg-base-100 w-[250px] h-[250px]">
                 <figure>
                   <img src={img} alt={`${product.ProductName}`} />
                 </figure>

@@ -94,7 +94,7 @@ function Signup() {
               <span>Password</span>
               <input
                 name="password"
-                type="text"
+                type="password"
                 required
                 className="input input-bordered"
               />
@@ -106,7 +106,7 @@ function Signup() {
               <span>Confirm Password</span>
               <input
                 name="confirmpassword"
-                type="text"
+                type="password"
                 required
                 className="input input-bordered"
               />
@@ -114,7 +114,7 @@ function Signup() {
           </div>
 
           <input
-            className="mt-2"
+
             type="submit"
             value="create my account"
             className="btn"
@@ -123,7 +123,7 @@ function Signup() {
             Already have an account? <Link to="/login">Log In</Link>
           </p>
         </form>
-        <div className="text-red">{error}</div>
+        <div className="color-red">{error}</div>
       </div>
     </div>
   );

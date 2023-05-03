@@ -18,8 +18,11 @@ const Checkout = () => {
     // console.log(state);
     // const { id, color } = state; // Read values passed on state
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         let prods = [];
+        let quants = []
         async function getData() {
             const res = await fetch('/api/products');
             const data = await res.json();
@@ -29,10 +32,11 @@ const Checkout = () => {
                 // console.log(obj[product])
                 if (obj[product].ProductId in state){
                     prods.push(obj[product])
-                    quantities.push(state[obj[product].ProductId])
+                    quants.push(state[obj[product].ProductId])
                 }
             }
             setProducts((prev) => prods);
+            setQuantities((prev) => quants);
         }
         getData();
     }, []);
@@ -41,14 +45,25 @@ const Checkout = () => {
     const decItem = (e) => {
         e.preventDefault();
         console.log(e.target.value);
-        if(quantities[products.indexOf(e.target.value)] > 0){
-            quantities[products.indexOf(e.target.value)] -= 1;
+        if(quantities[e.target.value] > 0){
+            // quantities[products.indexOf(e.target.value)] -= 1;
+            setQuantities(prev => {
+                let update = prev;
+                update[e.target.value] -= 1;
+                return update;
+            });
         }
     }
     const incItem = (e) => {
         e.preventDefault();
         console.log(e.target.value);
-        quantities[products.indexOf(e.target.value)] += 1;
+        // quantities[products.indexOf(e.target.value)] += 1;
+        setQuantities(prev => {
+            let update = prev;
+            update[e.target.value] += 1;
+            console.log(update)
+            return update;
+        });
     }
 
     const totalPrice = () => {
@@ -117,7 +132,8 @@ const Checkout = () => {
 
         const res = await insertOrder();
         console.log(res);
-        setShowSuccess(prev => !prev);
+        // setShowSuccess(prev => !prev);
+        navigate('/profile')
     }
 
 const getShippingCost= () => {
@@ -130,14 +146,16 @@ const getShippingCost= () => {
         
         <div>
             {showCheckout && 
-                <div className="bg-slate-600 absolute top-1/2 right-1/2 w-[400px] h-[250px] flex flex-col items-center justify-center z-20">
-                    <div>Total: ${totalPrice() + getShippingCost()}</div>
-                    <input type="text" placeholder="CC Number" className="input mt-3 w-full max-w-xs" />
-                    <input type="text" placeholder="Exp. Date" className="input  mt-3 w-full max-w-xs" />
-                    <input type="text" placeholder="CVV" className="input w-full mt-3 max-w-xs" />
+                <div className="bg-slate-600 absolute top-1/2 right-1/2 w-[400px] h-[400px] flex flex-col items-center justify-center z-20">
+                    <div className="text-2xl">Total: ${totalPrice() + getShippingCost()}</div>
+                    <form className="flex flex-col items-center justify-center" onSubmit={handleCheckout}>
+                    <input type="text" placeholder="CC Number" required className="input mt-3 w-full max-w-xs" />
+                    <input type="text" placeholder="Exp. Date" required className="input  mt-3 w-full max-w-xs" />
+                    <input type="text" placeholder="CVV" required className="input w-full mt-3 max-w-xs" />
                     {/* <button className="btn btn-primary" onClick={handleCheckout} > Submit</button> */}
-                    <button onClick={handleCheckout}   className="btn btn-primary my-2">Submit</button>
-                    <a className="btn btn-primary" href="Cust_Map.html?address_2=123" target="_blank" >View Map</a>
+                    <button type="submit"  className="btn btn-primary my-2">Submit</button>
+                    </form>
+                    <a className="btn btn-primary" href="Cust_Map.html?address_2=123" target="_blank" > Pick Up</a>
           </div>
             }
             {showSuccess &&
@@ -166,9 +184,11 @@ const getShippingCost= () => {
                       <td>{product.ProductName}</td>
                       <td>${product.ProductPrice}</td>
                       <td>
-                        {/* <button onClick={decItem} value={products.indexOf(product)}>-</button> */}
-                        {quantities[products.indexOf(product)]}
-                        {/* <button value={products.indexOf(product)} onClick={incItem}>+</button> */}
+                        <div key={quantities[products.indexOf(product)]} className="flex flex-row">
+                        <button className="btn mx-1" onClick={decItem} value={products.indexOf(product)}>-</button>
+                       {quantities[products.indexOf(product)]}
+                        <button className="btn mx-1" value={products.indexOf(product)} onClick={incItem}>+</button>
+                        </div>
                         </td>
                         <td>{product.weight} lbs.</td>
                       <td>${p}</td>
