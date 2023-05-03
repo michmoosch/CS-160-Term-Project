@@ -14,11 +14,12 @@ function Signup() {
     const lname = e.target.lname.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const address = e.target.address.value;
     const data = JSON.parse(
-      `{"email" : "${email}", "firName" : "${fname}", "lstName" : "${lname}", "userPsw" : "${password}" }`
+      `{"email" : "${email}", "firName" : "${fname}", "lstName" : "${lname}", "userPsw" : "${password}", "address" : "${address}" }`
     );
 
-    const url = "http://127.0.0.1:5000/register";
+    const url = "http://127.0.0.1:5000/api/register";
     const customHeader = {
       headers: {
         // Authorization: `Bearer ${getLocalStorageToken()}`,

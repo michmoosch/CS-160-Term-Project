@@ -1,4 +1,5 @@
 from api.models import User, Product, Category, db
+from api.config import Config
 from datetime import datetime, timedelta
 import stripe
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,7 +11,7 @@ from flask_cors import cross_origin
 
 
 route_bp = Blueprint("route_bp", __name__)
-stripe.api_key = "sk_test_51Mw15WKqLmqC1u8HsIzzCHDVltosxOOglnfEYO8HqoikByssoGUNUAyTQpEo6nOwan0lsr3F5K7bJo3xQJA1fuKf00JePj8g4L"
+stripe.api_key = Config.STRIPE_SECRET_API_KEY
 
 
 #@route_bp.errorhandler(404)
@@ -219,20 +220,16 @@ def addProd():
         if(isAdmin == "False"):
             return {"msg": "Unauthorized to access"}, 401
         data = request.get_json()
-        prodid = data['id']
         prodName = data['name']
         prodDescip = data['description']
         prodUnitPrice = data['unitPrice']
         prodUnitInStock = data['unitInStock']
         prodUnitWeight = data['unitWeight']
         categoryId = data['category']
-        if db.session.execute(db.select(Product).where(Product.prodid == prodid)).scalar() is None:    # check if user already exists
-            product = Product(prodid=prodid, prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight, categoryId=categoryId)
-            db.session.add(product)
-            db.session.commit()
-            return {"msg": "Product added successfully"}
-        else:
-            return {"msg": "Product already exists"}
+        product = Product(prodName=prodName, prodDescip=prodDescip, prodUnitPrice=prodUnitPrice, prodUnitInStock=prodUnitInStock, prodUnitWeight=prodUnitWeight, categoryId=categoryId)
+        db.session.add(product)
+        db.session.commit()
+        return {"msg": "Product added successfully"}
 
 # @route_bp.route('/xxx', methods=['GET'])
 # def display_prod():
@@ -385,23 +382,21 @@ def modify_product(prodid):
         if(isAdmin == "False"):
             return {"msg": "Unauthorized to access"}, 401
         newData = request.get_json()
-        id = newData['id']
-        if db.session.execute(db.select(Product).where(Product.prodid==id)).scalar() is not None:
-            Product.query.filter(Product.prodId == id).delete()
+        if db.session.execute(db.select(Product).where(Product.prodid==prodid)).scalar() is not None:
+            Product.query.filter(Product.prodId == prodid).delete()
             db.session.commit()
             return {"msg": "Product has been deleted"}
         else:
             return {"msg": "No item has found"}
     if request.method == 'PUT':
         newData = request.get_json()
-        id = newData['id']
         name = newData['name']
         des = newData['descrip']
         price = newData['unitPrice']
         inStock = newData['unitInStock']
         weight = newData['unitWeight']
-        if db.session.execute(db.select(Product).where(Product.prodId == id)).scalar() is not None:    # check if product exists
-            instance = Product.query().filter(Product.prodId==id)
+        if db.session.execute(db.select(Product).where(Product.prodId == prodid)).scalar() is not None:    # check if product exists
+            instance = Product.query().filter(Product.prodId==prodid)
             data = instance.data
             data["prodName"] = name
             data["prodDescip"] = des
@@ -418,6 +413,11 @@ def modify_product(prodid):
             return {"msg": "Unable to find the product with given product ID."}
 
 # Stripe order/checkout
+@route_bp.route('/api/stripe_key', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
+def get_publishable_key():
+    return {"stripe_key": Config.STRIPE_PUBLISHABLE_API_KEY}
+
 @route_bp.route('/api/checkout', methods=['POST'])
 @cross_origin(allow_headers=['Content-Type'])
 def checkout():
@@ -428,8 +428,8 @@ def checkout():
         session = stripe.checkout.Session.create(
             line_items=[{"price": item.id, "quantity": 1} for item in items],
             mode="payment",
-            success_url="http://client/success",
-            cancel_url="http://client"
+            success_url="http://localhost/success",
+            cancel_url="http://localhost"
         )
-        return {"url": session.url}
+        return {"data": [{"url": session.url, "sessionId": session["id"]}]}
         
