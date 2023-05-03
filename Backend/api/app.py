@@ -34,7 +34,7 @@ def register():
             db.session.commit()
             return {"msg": "User registered successfully"}
         else:
-            return jsonify(msg="User already exists"), 400
+            return {"msg": "User already exists"}, 400
 
 # Login user
 @route_bp.route('/api/login', methods=['POST'])
@@ -55,7 +55,7 @@ def login():
                                  "token_expiration": datetime.now() + timedelta(hours=1),
                                  "uid": user.uid}],
                         "msg": "User successfully logged in"}
-        return {"msg": "Incorrect email or password"}, 400
+        return {"data": [], "msg": "Incorrect email or password"}, 400
 
 # Refresh expiring access token    
 @route_bp.route('/api/refresh', methods=['POST'])
@@ -79,7 +79,7 @@ def users_list():
         identity = get_jwt_identity()
         isAdmin = db.session.execute(db.select(User.isAdmin).where(User.email == identity)).scalar()
         if(isAdmin == "False"):
-            return {"msg": "Unauthorized to access"}, 401
+            return {"data": [], "msg": "Unauthorized to access"}, 401
         uid = request.args.get('uid')
         email = request.args.get('email')
         fname = request.args.get('fname')
@@ -153,7 +153,7 @@ def user_details(uid):
     identity = get_jwt_identity()
     db_identity = db.session.execute(db.select(User).where(User.email == identity)).scalar()
     if(db_identity.isAdmin == "True" or db_identity.uid == uid):
-        return {"msg": "Unauthorized to access"}, 401
+        return {"data": [], "msg": "Unauthorized to access"}, 401
     if request.method == 'GET':
         user = db.session.execute(db.select(User)
                                     .where(User.uid == uid)).scalar_one()
@@ -187,7 +187,7 @@ def user_details(uid):
                 if user.pwd == password:
                     User.pwd = password
                 else:
-                    return {"msg": "Incorrect password"}, 401
+                    return {"data": [], "msg": "Incorrect password"}, 401
             if fname != "":    
                 User.fname = fname
             if lname != "":    
@@ -195,9 +195,9 @@ def user_details(uid):
             if address != "":
                 User.address = address
             db.session.commit()
-            return {"msg": "User successfully updated"}
+            return {"data": [], "msg": "User successfully updated"}
         else:
-            return {"msg": "User doesn't exist"}, 404
+            return {"data": [], "msg": "User doesn't exist"}, 404
 
 
 # -------------------------------------------------------- #

@@ -15,6 +15,6 @@ def create_app(config_class=Config):
 
     from api.app import route_bp
     app.register_blueprint(route_bp)
-    CORS(app, supports_credentials=True, origin=["http://localhost:3000"])
+    CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
     return app
