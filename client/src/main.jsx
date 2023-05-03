@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import Checkout from "./components/Checkout";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
 import "./index.css";
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Home />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="checkout" element={<Checkout />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

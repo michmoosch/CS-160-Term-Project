@@ -49,7 +49,8 @@ app.post("/login", async (req, res) => {
   const loginQuery = `SELECT * FROM users WHERE UserEmail=? AND UserPsw=?`;
   db.query(loginQuery, [email, password], (err, result) => {
     // Check if user exists
-    if (result.length > 0) {
+    if (result && result.length > 0) {
+      console.log(result)
       resBody = result[0];
 
       res.json(

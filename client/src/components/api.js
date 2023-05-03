@@ -26,5 +26,11 @@ async function loginUser(obj) {
     body: JSON.stringify(obj),
   });
 }
+async function getProducts() {
+  const res = await fetch("/api/products");
+  const data = await res.json();
+  const obj = JSON.parse(data);
+  return obj;
+}
 
-export { testConnection, registerUser, loginUser };
+export { testConnection, registerUser, loginUser, getProducts };
