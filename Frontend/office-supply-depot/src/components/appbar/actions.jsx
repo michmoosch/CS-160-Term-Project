@@ -28,7 +28,7 @@ import { useUIContext } from "../../context/ui";
 function Actions({ matches }) {
   const { cart, setShowCart } = useUIContext();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   //let isLoggedIn = ...

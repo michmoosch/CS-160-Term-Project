@@ -10,3 +10,4 @@ class Config(object):
     JWT_ACCESS_TOKEN_EXPIRES = os.getenv("JWT_ACCESS_TOKEN_EXPIRES")
     JWT_REFRESH_TOKEN_EXPIRES = os.getenv("JWT_REFRESH_TOKEN_EXPIRES")
     STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
+    CORS_HEADERS = "Content-Type"

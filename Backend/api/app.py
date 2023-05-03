@@ -2,9 +2,10 @@ from api.models import User, Product, Category, db
 from datetime import datetime, timedelta
 import stripe
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from sqlalchemy.orm.attributes import flag_modified
+from flask_cors import cross_origin
 
 
 
@@ -18,6 +19,7 @@ stripe.api_key = "sk_test_51Mw15WKqLmqC1u8HsIzzCHDVltosxOOglnfEYO8HqoikByssoGUNU
 
 # Register user (ie. create non-admin user)
 @route_bp.route('/api/register', methods=['POST'])
+@cross_origin(allow_headers=['Content-Type'])
 def register():
     if request.method == 'POST':
         data = request.get_json()
@@ -32,10 +34,11 @@ def register():
             db.session.commit()
             return {"msg": "User registered successfully"}
         else:
-            return {"msg": "User already exists"}, 400
+            return jsonify(msg="User already exists"), 400
 
 # Login user
 @route_bp.route('/api/login', methods=['POST'])
+@cross_origin(allow_headers=['Content-Type'])
 def login():
     if request.method == 'POST':
         data = request.get_json()
@@ -56,6 +59,7 @@ def login():
 
 # Refresh expiring access token    
 @route_bp.route('/api/refresh', methods=['POST'])
+@cross_origin(allow_headers=['Content-Type'])
 @jwt_required(refresh=True)
 def refresh():
     identity = get_jwt_identity()
@@ -68,6 +72,7 @@ def refresh():
 
 # Retrieve list of users
 @route_bp.route('/api/users', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
 @jwt_required()
 def users_list():
     if request.method == 'GET':
@@ -142,6 +147,7 @@ def users_list():
 # GET: Retrieve user details (ie. for profile page)
 # PUT: Update user details
 @route_bp.route('/api/users/<uid>', methods=['GET', 'PUT'])
+@cross_origin(allow_headers=['Content-Type'])
 @jwt_required()
 def user_details(uid):
     identity = get_jwt_identity()
@@ -204,6 +210,7 @@ def user_details(uid):
 #             '4': 'Desk Supplies',
 #             '5': 'Stationary'}
 @route_bp.route('/api/products/add', methods=['POST'])     # ADD PRODUCT PAGE
+@cross_origin(allow_headers=['Content-Type'])
 @jwt_required()
 def addProd():
     if request.method == 'POST':
@@ -258,6 +265,7 @@ def addProd():
 
 # Product list + search + filter, good for products page, homepage, search
 @route_bp.route('/api/products', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
 def product_list():
     if request.method == 'GET':
         search = request.args.get('search')
@@ -342,6 +350,7 @@ def product_list():
 
 # Retrieve product details (ie. for product page)
 @route_bp.route('/api/products/<prodid>', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type'])
 def product_details(prodid):
     if request.method == 'GET':
         product = db.session.execute(db.select(Product)
@@ -367,6 +376,7 @@ def product_details(prodid):
 # PUT: Update product details
 # DELETE: Delete product from database
 @route_bp.route('/api/products/<prodid>', methods = ['PUT', 'DELETE'])
+@cross_origin(allow_headers=['Content-Type'])
 @jwt_required()
 def modify_product(prodid):
     if request.method == 'DELETE':
@@ -409,6 +419,7 @@ def modify_product(prodid):
 
 # Stripe order/checkout
 @route_bp.route('/api/checkout', methods=['POST'])
+@cross_origin(allow_headers=['Content-Type'])
 def checkout():
     if request.method == "POST":
         data = request.get_json()
