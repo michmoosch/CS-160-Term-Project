@@ -25,7 +25,7 @@ CREATE TABLE Product(
     prodUnitInStock Integer NOT NULL,
     prodUnitWeight DOUBLE NOT NULL,
     prodStripeId VARCHAR(64) NOT NULL,
-    prodImagePath VARCHAR(64),
+    prodImagePath VARCHAR(128),
     categoryId Integer,
     FOREIGN KEY(categoryId) REFERENCES Category(categoryId) ON DELETE CASCADE,
     CHECK (prodUnitPrice > 0),
@@ -55,7 +55,7 @@ VALUES ('Furniture'), ('Stationary'), ('Art Supplies');
 
 INSERT INTO Product(prodName, prodDescip, prodUnitInStock, prodUnitPrice, prodUnitWeight, prodStripeId, prodImagePath, categoryId)
 VALUES
-('Super Backpack', 'I am Desciption', '10', '129.99', '30', 'insert stripe id here', 'insert/path/here.png', '1'),
-('File Folder, Letter Size', 'I am Desciption', '5', '12.99', '0.5','insert stripe id here', 'insert/path/here.png', '2'),
-('Energizer Industrial Alkaline Batteries', 'I am Desciption', '50', '9.99', '5', 'insert stripe id here', 'insert/path/here.png', '1'),
-('Color Pencil', 'I am Desciption', '200', '1.99', '2.0', 'insert stripe id here', 'insert/path/here.png', '3');
+('Super Backpack', 'I am Desciption', '10', '129.99', '30', 'price_1N3jKQKqLmqC1u8HJDr4G4Qz', '${process.env.PUBLIC_URL}/images/products/Furnitures/black lamp.jpg', '1'),
+('File Folder, Letter Size', 'I am Desciption', '5', '12.99', '0.5','price_1N3jQxKqLmqC1u8HGLrK0LGi', '${process.env.PUBLIC_URL}/images/products/Furnitures/black single chair.jpg', '2'),
+('Energizer Industrial Alkaline Batteries', 'I am Desciption', '50', '9.99', '5', 'price_1N3jSEKqLmqC1u8HF7BpISM1', '${process.env.PUBLIC_URL}/images/products/Furnitures/clock.jpg', '1'),
+('Color Pencil', 'I am Desciption', '200', '1.99', '2.0', 'price_1N3jT0KqLmqC1u8HJhjpMHJm', '${process.env.PUBLIC_URL}/images/products/Furnitures/hanging white lamp.jpg', '3');

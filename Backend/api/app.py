@@ -14,10 +14,6 @@ route_bp = Blueprint("route_bp", __name__)
 stripe.api_key = Config.STRIPE_SECRET_API_KEY
 
 
-#@route_bp.errorhandler(404)
-#def not_found(e):
-#    return app.send_static_file('index.html')
-
 # Register user (ie. create non-admin user)
 @route_bp.route('/api/register', methods=['POST'])
 @cross_origin(allow_headers=['Content-Type'])
@@ -231,9 +227,6 @@ def addProd():
         db.session.add(product)
         db.session.commit()
         return {"msg": "Product added successfully"}
-
-# @route_bp.route('/xxx', methods=['GET'])
-# def display_prod():
     
 
 # -------------------------------------------------------- #
@@ -441,4 +434,10 @@ def checkout():
             cancel_url="http://localhost"
         )
         return {"data": [{"url": session.url, "sessionId": session["id"]}]}
+        
+#@route_bp.route('/api/checkout_success', methods=['POST'])
+#@cross_origin(allow_headers=['Content-Type'])
+#def checkout_success():
+    if request.method == "POST":
+        data = request.get_json()
         
