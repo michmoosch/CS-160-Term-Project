@@ -5,7 +5,7 @@ USE osd_db;
 CREATE TABLE User(
     uid Integer NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(64) NOT NULL UNIQUE,
-    pwd VARCHAR(64) NOT NULL,
+    pwd VARCHAR(128) NOT NULL,
     fname VARCHAR(64) NOT NULL,
     lname VARCHAR(64) NOT NULL,
     isAdmin boolean default FALSE,
