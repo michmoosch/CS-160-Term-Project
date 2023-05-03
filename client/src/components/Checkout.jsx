@@ -74,10 +74,49 @@ const Checkout = () => {
         setShowCheckout(prev => !prev);
     }
 
-   const handleCheckout = (e) => {
+    const insertOrder = async () => {
+        console.log(parseCookie(document.cookie).UserId)
+        const res = await fetch('/api/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "UserId": parseCookie(document.cookie).UserId,
+                "OrderTotal": totalPrice() + getShippingCost(),
+                "ShippingMethod": shippingMethod,
+                "TotalPrice": totalPrice(),
+                "TotalWeight": totalWeight()
+            }),
+        });
+        const data = await res.json();
+        insertCart(data.orderID)
+        return data
+    }
+
+    const insertCart = async (orderId) => {
+        for (const product in products){
+            const res = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "OrderId": orderId,
+                    "ProductId": products[product].ProductId,
+                    "Quantity": quantities[product]
+                }),
+            });
+            const data = await res.json();
+            return data
+        }
+    }
+
+    const handleCheckout = async (e) => {
         e.preventDefault();
-        
-        setShowCheckout(prev => !prev);
+
+        const res = await insertOrder();
+        console.log(res);
         setShowSuccess(prev => !prev);
     }
 
@@ -96,7 +135,9 @@ const getShippingCost= () => {
                     <input type="text" placeholder="CC Number" className="input mt-3 w-full max-w-xs" />
                     <input type="text" placeholder="Exp. Date" className="input  mt-3 w-full max-w-xs" />
                     <input type="text" placeholder="CVV" className="input w-full mt-3 max-w-xs" />
-                    <button className="btn btn-primary" onClick={handleCheckout} > Submit</button>
+                    {/* <button className="btn btn-primary" onClick={handleCheckout} > Submit</button> */}
+                    <button onClick={handleCheckout}   className="btn btn-primary my-2">Submit</button>
+                    <a className="btn btn-primary" href="Cust_Map.html?address_2=123" target="_blank" >View Map</a>
           </div>
             }
             {showSuccess &&
@@ -148,8 +189,9 @@ const getShippingCost= () => {
 <td>
 <div className="btn-group btn-group-vertical lg:btn-group-horizontal flex flex-row w-full">
     {totalPrice() >= 100 && <button value="free" onClick={(e) => {handleShipping(e)}} className={`btn btn`}>Free shipping over $100</button>}
+    {totalPrice() >=100 && <button value="truck" onClick={(e) => {handleShipping(e)}} className={`btn btn`}>$25 same day truck delivery</button>}
     {totalWeight() <= 15 && <button value="drone" onClick={(e) => {handleShipping(e)}} className={`btn btn`}>Free Same day drone delivery</button>}
-    <button value="truck" onClick={(e) => {handleShipping(e)}} className={`btn btn`}>$25 2-day truck delivery</button>
+    {totalPrice() < 100 && <button value="truck" onClick={(e) => {handleShipping(e)}} className={`btn btn`}>$25 2-day truck delivery</button>}
 </div>
 </td>
 </tr>

@@ -32,9 +32,9 @@ app.post("/registerUser", async (req, res) => {
     (err, result) => {
       console.log(result);
       if (!result) {
-        res.json({ message: "User already exists" }, 400);
+        res.status(400).json({ message: "User already exists" });
       } else {
-        res.json({ message: "User created" }, 200);
+        res.status(200).json({ message: "User created" });
       }
     }
   );
@@ -61,7 +61,8 @@ app.post("/login", async (req, res) => {
         })
       );
     } else {
-      res.json({ message: "User does not exist" }, 400);
+      res.status(400).json({ message: "User does not exist" });
+// res.json(obj, status): Use res.status(status).json(obj) instead at index.js:64:11
     }
   });
 });
@@ -83,15 +84,69 @@ app.get("/products/:id", async (req, res) => {
   );
 });
 
-// const insertQuery =
-//   "INSERT INTO users (UserId, UserPsw, UserFirstName, UserLastName, UserEmail) VALUES (?, ?, ?, ?, ?)";
-// db.query(
-//   insertQuery,
-//   [0, userPsw, firName, lstName, email],
-//   (err, result) => {
-//     res.json(JSON.stringify(result));
-//   }
-// );
+app.post("/order", async (req, res) => {
+  const {UserId, OrderTotal, ShippingMethod} = req.body;
+  console.log(req.body);
+  const insertQuery = 
+    "INSERT INTO orders (UserId, OrderTotal, ShippingMethod) VALUES (?, ?, ?)";
+  db.query(
+    insertQuery,
+    [UserId, OrderTotal, ShippingMethod],
+    (err, result) => {
+      console.log(result);
+      if (!result) {
+        res.json({ message: "User does exists." }, 400);
+      } else {
+        const id = result.insertId;
+        res.json({ message: "Order created", orderID: id }, 200);
+      }
+    }
+  );
+});
 
+app.post("/cart", async(req, res) => {
+  const {OrderId, ProductId, Quantity} = req.body;
+  console.log(req.body);
+  const insertQuery = 
+    "INSERT INTO cart (OrderId, ProductId, Quantity) VALUES (?, ?, ?)";
+  db.query(
+    insertQuery,
+    [OrderId, ProductId, Quantity],
+    (err, result) => {
+      console.log(result);
+      if (!result) {
+        res.json({ message: "Order does exists." }, 400);
+      } else {
+        res.json({ message: "Cart created" }, 200);
+      }
+    }
+  );
+});
+app.post("/orders", async (req, res) => {
+  const {UserId} = req.body;
+  const ordersQuery = `SELECT * FROM orders WHERE UserId = ${UserId}`;
+  db.query(ordersQuery, (err, result) => {
+    console.log(result)
+    res.json(JSON.stringify(result));
+  });
+}
+);
 
+app.post("/profile", async (req, res) => {
+  const {UserId, UserFirstName, UserLastName, UserEmail, UserAddress} = req.body;
+  console.log(req.body);
+  const updateQuery = `UPDATE users SET UserFirstName = ?, UserLastName = ?, UserEmail = ?, UserAddress = ? WHERE UserId = ${UserId}`
+  db.query(
+    updateQuery,
+    [UserFirstName, UserLastName, UserEmail, UserAddress],
+    (err, result) => {
+      console.log(result);
+      if (!result) {
+        res.json({ message: "Invalid Input." }, 400);
+      } else {
+        res.json({ message: "Profile updated" }, 200);
+      }
+    }
+  );
+});
 app.listen("3001", () => {});

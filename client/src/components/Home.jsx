@@ -173,7 +173,8 @@ const Home = () => {
         <div className="flex-1 indicator">
           Welcome, <p className="font-bold ml-1"> {name}</p>
         </div>
-        {isAdmin && <Link>Admin</Link>}
+        {isAdmin && <a className="btn btn-primary mx-2" href="http://localhost:8000/?server=mysql_db">Admin</a>}
+        {isAdmin && <a className="btn btn-primary mx-2" href="Driver_Map.html">Driver Map</a>}
         <button className="btn" onClick={profile}>
           Profile
         </button>
