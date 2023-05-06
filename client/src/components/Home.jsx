@@ -38,12 +38,7 @@ const Home = () => {
       const obj = JSON.parse(data);
       setProducts((prev) => obj);
     }
-    //   async () => {
-    //     const info = await getProducts()
-    //   return info
-    // }
-    // const items = await ();
-    // setProducts((prev) => items);
+
     getData();
   }, []);
 
@@ -188,8 +183,19 @@ const Home = () => {
         <div className="flex-1 indicator">
           Welcome, <p className="font-bold ml-1"> {name}</p>
         </div>
-        {isAdmin !=0 && <a className="btn btn-primary mx-2" href="http://localhost:8000/?server=mysql_db">Admin</a>}
-        {isAdmin !=0 && <a className="btn btn-primary mx-2" href="Driver_Map.html">Driver Map</a>}
+        {isAdmin != 0 && (
+          <a
+            className="btn btn-primary mx-2"
+            href="http://localhost:8000/?server=mysql_db"
+          >
+            Admin
+          </a>
+        )}
+        {isAdmin != 0 && (
+          <a className="btn btn-primary mx-2" href="Driver_Map.html">
+            Driver Map
+          </a>
+        )}
         <button className="btn" onClick={profile}>
           Profile
         </button>
