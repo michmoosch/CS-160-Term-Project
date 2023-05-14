@@ -1,12 +1,13 @@
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `UserPsw` varchar(64) NOT NULL,
   `UserFirstName` varchar(64) NOT NULL,
   `UserLastName` varchar(64) NOT NULL,
-  `UserEmail` text NOT NULL,
-  `UserAddress` text NOT NULL,
+  `UserEmail` varchar(255) NOT NULL,
+  `UserAddress` varchar(255) NOT NULL,
   `isAdmin` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`UserId`)
+  PRIMARY KEY (`UserId`),
+  UNIQUE KEY (`UserEmail`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `products` (

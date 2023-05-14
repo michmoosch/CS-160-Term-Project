@@ -25,12 +25,16 @@ function Signup() {
     const data = JSON.parse(
       `{"email" : "${email}", "firName" : "${fname}", "lstName" : "${lname}", "userPsw" : "${password}", "address" : "${address}" }`
     );
-    console.log(data);
+
     const reply = await registerUser(data);
-    console.log(reply);
+
     if (reply.message == "User created") {
       console.log("success");
       navigate("/login");
+    } else if (reply.message == "User already exists") {
+      setError((prev) => "User already exists");
+    } else {
+      setError((prev) => "Something went wrong");
     }
   }
   return (
@@ -38,11 +42,13 @@ function Signup() {
       <div className="hero-content text-center flex flex-col">
         <h1 className="signup-title">Create your Account</h1>
         <img src={icon} className="logo-image" />
-        <form onSubmit={handleSubmit} className="login-container">
+        <form
+          onSubmit={handleSubmit}
+          className="login-container w-min-full-300"
+        >
           {/* <h1>Sign Up</h1> */}
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>First Name</span>
               <input
                 name="fname"
@@ -52,9 +58,8 @@ function Signup() {
               />
             </label>
           </div>
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>Last Name</span>
               <input
                 name="lname"
@@ -64,21 +69,19 @@ function Signup() {
               />
             </label>
           </div>
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>Email</span>
               <input
-                type="text"
+                type="email"
                 name="email"
                 required
                 className="input input-bordered"
               />
             </label>
           </div>
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>Address</span>
               <input
                 name="address"
@@ -88,9 +91,8 @@ function Signup() {
               />
             </label>
           </div>
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>Password</span>
               <input
                 name="password"
@@ -100,9 +102,8 @@ function Signup() {
               />
             </label>
           </div>
-          <div className="form-control w-[200px]">
-            <label className="label"></label>
-            <label className="w-full">
+          <div className="form-control w-full">
+            <label className="w-full  flex flex-col text-left">
               <span>Confirm Password</span>
               <input
                 name="confirmpassword"
@@ -114,16 +115,15 @@ function Signup() {
           </div>
 
           <input
-
             type="submit"
             value="create my account"
-            className="btn"
+            className="btn my-5 w-ful"
           />
           <p className="register">
             Already have an account? <Link to="/login">Log In</Link>
           </p>
         </form>
-        <div className="color-red">{error}</div>
+        <div className="text-red-600">{error}</div>
       </div>
     </div>
   );

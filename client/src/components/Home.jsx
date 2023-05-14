@@ -15,6 +15,8 @@ const Home = () => {
   const [showCart, setShowCart] = useState(false);
 
   const cookie = parseCookie(document.cookie);
+  const name = cookie.UserFirstName;
+  const isAdmin = cookie.isAdmin;
   if (!cookie) {
     navigate("/login");
   }
@@ -26,9 +28,6 @@ const Home = () => {
       }
     }
   };
-
-  const name = cookie.UserFirstName;
-  const isAdmin = cookie.isAdmin;
 
   // Fetch products in useEffect
   useEffect(() => {
@@ -44,7 +43,7 @@ const Home = () => {
 
   const logout = (e) => {
     e.preventDefault();
-    document.cookie = "token=; expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
+    document.cookie = "expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
     navigate("/login");
   };
 
@@ -90,12 +89,6 @@ const Home = () => {
         });
       }
       getData();
-      // setProducts((prev) => {
-      //   return prev.filter((product) => {
-      //     // console.log(product.categoryId, val);
-      //     return product.categoryId == val;
-      //   });
-      // });
     }
   };
 
@@ -135,36 +128,15 @@ const Home = () => {
     }
   };
   const addToCart = (e) => {
-    for (const product in products) {
-      if (products[product].ProductId == e.target.value) {
-        console.log(products[product].ProductName);
-        incItem(products[product].ProductId);
-      }
-    }
-    // console.log(e.target.value)
-    // incItem(e.target.value)
-    // // setCart((prev) => {
-    // //   if (e.target.value in prev) {
-    // //     prev[e.target.value] += 1;
-    // //   }
-    // //   else {
-    // //     prev[e.target.value] = 1
-    // //   }
-    // //   const update = prev;
-    // //   console.log(update)
-    // //   return update;
-    // // })
-    // setItemsInCart((prev) => {
-    //   const update = prev;
-    //   if (update.includes(e.target.value)) {
-    //     return update
+    // for (const product in products) {
+    //   if (products[product].ProductId == e.target.value) {
+    //     console.log(products[product].ProductName);
+    //     incItem(products[product].ProductId);
     //   }
-    //   else {
-    //     return [...update, e.target.value]
-    //   }}
-    // )
-
-    // console.log(Object.keys(cart).length)
+    // }\
+    const index = e.target.value;
+    console.log(products[index]);
+    setCart({});
   };
 
   const checkout = () => {
@@ -209,7 +181,10 @@ const Home = () => {
                   </span>
                 )}
 
-                <button className="btn" onClick={checkout}>
+                <button
+                  className="btn"
+                  onClick={() => setShowCart((prev) => !prev)}
+                >
                   My Cart
                 </button>
               </div>
@@ -222,8 +197,8 @@ const Home = () => {
         </div>
       </div>
       {showCart && (
-        <div className="fixed right-5 top-[12%] h-[500px] w-[200px] bg-info z-20">
-          {itemsInCart.length > 0 &&
+        <div className="fixed right-5 top-[12%] h-min-full-400 w-min-half-200 bg-primary z-20">
+          {itemsInCart.length > 0 ? (
             itemsInCart.map((item) => {
               return (
                 <div className="w-full flex flex-row justify-between bg-slate-200 text-xl">
@@ -249,7 +224,10 @@ const Home = () => {
                   </div>
                 </div>
               );
-            })}
+            })
+          ) : (
+            <div className="text-center">Cart is Empty</div>
+          )}
           <button
             className="btn btn-secondary absolute bottom-0"
             onClick={checkout}
@@ -292,21 +270,29 @@ const Home = () => {
             const img = imageImports[product.ProductImage];
             // console.log(product)
             return (
-              <div key={index} className="card bg-base-100 w-[250px] h-[250px]">
+              <div
+                key={index}
+                className="card bg-base-200 w-[300px] h-[300px] p-5"
+              >
                 <figure>
                   <img src={img} alt={`${product.ProductName}`} />
                 </figure>
                 <h2 className="card-title">{product.ProductName}</h2>
                 <p>{product.ProductDescription}</p>
-                <div className="card-actions justify-end">
-                  ${product.ProductPrice}
+                <span></span>
+                <div className="card-actions justify-around items-center">
                   <button
                     className="btn btn-primary"
                     onClick={addToCart}
-                    value={product.ProductId}
+                    value={index}
+                    disabled={product.Quantity == 0}
                   >
-                    Add to Cart
+                    {product.Quantity == 0 ? "Out of Stock" : "Add to Cart"}
                   </button>
+                  <span className="font-bold text-right">
+                    Quantity: {product.Quantity}
+                    <br />${product.ProductPrice}
+                  </span>
                 </div>
               </div>
             );
