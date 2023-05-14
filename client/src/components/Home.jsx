@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [itemsInCart, setItemsInCart] = useState(0);
+  // const [itemsInCart, setItemsInCart] = useState(0);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([0]);
@@ -108,18 +108,22 @@ const Home = () => {
         return update;
       });
     }
-    setItemsInCart((prev) => {
-      let update = prev + 1;
-      return update;
-    });
-    console.log(itemsInCart);
+    // setItemsInCart((prev) => {
+    //   let update = prev + 1;
+    //   return update;
+    // });
+    // console.log(itemsInCart);
   };
   const decItem = (item) => {
     if (item in cart) {
       setCart((prev) => {
         const update = prev;
-        if (update[item] == 0) {
+        if (!update[item] || update[item] == 0) {
           return;
+        }
+        if (update[item] == 1) {
+          delete update[item];
+          return update;
         }
         update[item] -= 1;
         console.log(update);
@@ -134,13 +138,22 @@ const Home = () => {
     //     incItem(products[product].ProductId);
     //   }
     // }\
+
     const index = e.target.value;
     console.log(products[index]);
-    setCart({});
+    setCart((prev) => {
+      const update = prev;
+      if (products[index].ProductId in update) {
+        update[products[index].ProductId] += 1;
+      } else {
+        update[products[index].ProductId] = 1;
+      }
+      console.log(update);
+      return update;
+    });
   };
 
   const checkout = () => {
-    console.log(cart);
     navigate("/checkout", { state: cart });
   };
 
@@ -175,11 +188,11 @@ const Home = () => {
           <ul className="menu menu-horizontal px-1">
             <li>
               <div className="indicator">
-                {itemsInCart > 0 && (
+                {/* {itemsInCart > 0 && (
                   <span className="indicator-item badge badge-secondary">
                     {itemsInCart}
                   </span>
-                )}
+                )} */}
 
                 <button
                   className="btn"
@@ -197,13 +210,42 @@ const Home = () => {
         </div>
       </div>
       {showCart && (
-        <div className="fixed right-5 top-[12%] h-min-full-400 w-min-half-200 bg-primary z-20">
-          {itemsInCart.length > 0 ? (
-            itemsInCart.map((item) => {
+        <div className="fixed right-5 top-[12%] h-min-full-400 w-min-full-300 bg-neutral-content z-20 flex flex-col p-3 rounded-lg">
+          {Object.keys(cart).length > 0 ? (
+            Object.keys(cart).map((item, index) => {
+              let prod;
+              for (const product in products) {
+                if (products[product].ProductId == item) {
+                  prod = products[product];
+                }
+              }
+              const img = imageImports[prod.ProductImage];
+              const quantity = cart[item];
+
               return (
-                <div className="w-full flex flex-row justify-between bg-slate-200 text-xl">
-                  <div>{item}</div>
-                  <div className="w-1/4 flex flex-row justify-evenly">
+                <div className="w-full flex flex-row justify-between items-center text-lg text-black">
+                  <img
+                    className="h-[50px] w-[50px] rounded-lg"
+                    src={img}
+                    alt={`${prod.ProductName}`}
+                  />
+                  <div>{prod.ProductName}</div>
+                  <button
+                    onClick={() => {
+                      decItem(item);
+                    }}
+                  >
+                    -
+                  </button>
+                  <div>{quantity}</div>
+                  <button
+                    onClick={() => {
+                      incItem(item);
+                    }}
+                  >
+                    +
+                  </button>
+                  {/* <div className="w-1/4 flex flex-row justify-evenly">
                     <button
                       onClick={() => {
                         decItem(item);
@@ -221,7 +263,7 @@ const Home = () => {
                       {" "}
                       +{" "}
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               );
             })

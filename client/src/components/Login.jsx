@@ -32,7 +32,6 @@ const Login = () => {
           const data = await response.json();
 
           document.cookie = `token=${data}`;
-          console.log(document.cookie);
           navigate("/home");
         } else {
           setError("Invalid username or password");

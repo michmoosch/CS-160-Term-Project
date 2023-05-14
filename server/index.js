@@ -50,7 +50,7 @@ app.post("/login", async (req, res) => {
   db.query(loginQuery, [email, password], (err, result) => {
     // Check if user exists
     if (result && result.length > 0) {
-      console.log(result)
+      console.log(result);
       resBody = result[0];
 
       res.json(
@@ -62,7 +62,7 @@ app.post("/login", async (req, res) => {
       );
     } else {
       res.status(400).json({ message: "User does not exist" });
-// res.json(obj, status): Use res.status(status).json(obj) instead at index.js:64:11
+      // res.json(obj, status): Use res.status(status).json(obj) instead at index.js:64:11
     }
   });
 });
@@ -76,66 +76,76 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:id", async (req, res) => {
   const id = req.query.id;
-  console.log(id)
+  console.log(id);
   const productsQuery = `SELECT * FROM products WHERE ProductId=?`;
   db.query(productsQuery, [id], (err, result) => {
     res.json(JSON.stringify(result));
-  }
-  );
+  });
 });
 
 app.post("/order", async (req, res) => {
-  const {UserId, OrderTotal, ShippingMethod} = req.body;
-  console.log(req.body);
-  const insertQuery = 
-    "INSERT INTO orders (UserId, OrderTotal, ShippingMethod) VALUES (?, ?, ?)";
-  db.query(
-    insertQuery,
-    [UserId, OrderTotal, ShippingMethod],
-    (err, result) => {
-      console.log(result);
-      if (!result) {
-        res.json({ message: "User does exists." }, 400);
-      } else {
-        const id = result.insertId;
-        res.json({ message: "Order created", orderID: id }, 200);
+  const { UserId, OrderTotal, ShippingMethod, products, quantities } = req.body;
+  // console.log(req.body);
+  console.log("!!!!!!!!!!!!!!");
+  console.log(products);
+  console.log(quantities);
+  // db.query(
+  //   "UPDATE products SET ProductQuantity = ProductQuantity - ? WHERE ProductId = ?",
+  //   [quantities, products],
+  //   (err, result) => {
+  //     console.log(result);
+  //   }
+  // );
+  products.forEach((product, index) => {
+    db.query(
+      "UPDATE products SET Quantity = Quantity - ? WHERE ProductId = ?",
+      [quantities[index], product.ProductId],
+      (err, result) => {
+        console.log(result);
       }
+    );
+  });
+  const insertQuery =
+    "INSERT INTO orders (UserId, OrderTotal, ShippingMethod) VALUES (?, ?, ?)";
+  db.query(insertQuery, [UserId, OrderTotal, ShippingMethod], (err, result) => {
+    console.log(result);
+    if (!result) {
+      res.json({ message: "User does exists." }, 400);
+    } else {
+      const id = result.insertId;
+      res.json({ message: "Order created", orderID: id }, 200);
     }
-  );
+  });
 });
 
-app.post("/cart", async(req, res) => {
-  const {OrderId, ProductId, Quantity} = req.body;
+app.post("/cart", async (req, res) => {
+  const { OrderId, ProductId, Quantity } = req.body;
   console.log(req.body);
-  const insertQuery = 
+  const insertQuery =
     "INSERT INTO cart (OrderId, ProductId, Quantity) VALUES (?, ?, ?)";
-  db.query(
-    insertQuery,
-    [OrderId, ProductId, Quantity],
-    (err, result) => {
-      console.log(result);
-      if (!result) {
-        res.json({ message: "Order does exists." }, 400);
-      } else {
-        res.json({ message: "Cart created" }, 200);
-      }
+  db.query(insertQuery, [OrderId, ProductId, Quantity], (err, result) => {
+    console.log(result);
+    if (!result) {
+      res.json({ message: "Order does exists." }, 400);
+    } else {
+      res.json({ message: "Cart created" }, 200);
     }
-  );
+  });
 });
 app.post("/orders", async (req, res) => {
-  const {UserId} = req.body;
+  const { UserId } = req.body;
   const ordersQuery = `SELECT * FROM orders WHERE UserId = ${UserId}`;
   db.query(ordersQuery, (err, result) => {
-    console.log(result)
+    console.log(result);
     res.json(JSON.stringify(result));
   });
-}
-);
+});
 
 app.post("/profile", async (req, res) => {
-  const {UserId, UserFirstName, UserLastName, UserEmail, UserAddress} = req.body;
+  const { UserId, UserFirstName, UserLastName, UserEmail, UserAddress } =
+    req.body;
   console.log(req.body);
-  const updateQuery = `UPDATE users SET UserFirstName = ?, UserLastName = ?, UserEmail = ?, UserAddress = ? WHERE UserId = ${UserId}`
+  const updateQuery = `UPDATE users SET UserFirstName = ?, UserLastName = ?, UserEmail = ?, UserAddress = ? WHERE UserId = ${UserId}`;
   db.query(
     updateQuery,
     [UserFirstName, UserLastName, UserEmail, UserAddress],
