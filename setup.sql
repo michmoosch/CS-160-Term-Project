@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `ProductId` int(11) NOT NULL AUTO_INCREMENT,
   `ProductName` varchar(64) NOT NULL,
   `ProductPrice` decimal(10,2) NOT NULL,
-  `Quantity` int(11) NOT NULL DEFAULT 100,
+  `Quantity` int(11) UNSIGNED NOT NULL DEFAULT 100,
   `ProductDescription` text NOT NULL,
   `ProductImage` text NOT NULL,
   `categoryId`  int(11) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 CREATE TABLE IF NOT EXISTS `cart` (
   `CartId` int(11) NOT NULL AUTO_INCREMENT,
   `ProductId` int(11) NOT NULL UNIQUE,
-  `Quantity` int(11) NOT NULL DEFAULT 1,
+  `Quantity` int(11) UNSIGNED NOT NULL DEFAULT 1,
   `OrderId` int(11) NOT NULL,
   PRIMARY KEY(`CartId`),
   FOREIGN KEY (`OrderId`) REFERENCES orders(`OrderId`) ON DELETE CASCADE,

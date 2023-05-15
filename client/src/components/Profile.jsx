@@ -72,8 +72,47 @@ const Profile = () => {
     // do something with the form data, e.g. send it to a server
   };
 
+  const home = () => {
+    navigate("/home");
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    document.cookie = "expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
+    navigate("/login");
+  };
+
   return (
     <>
+    {/* Navbar */}
+    <div className="navbar bg-info-content">
+        <div className="flex-1 indicator">
+          Welcome, <p className="font-bold ml-1"> {firstname}</p>
+        </div>
+        {isAdmin != 0 && (
+          <a
+            className="btn btn-primary mx-2"
+            href="http://localhost:8000/?server=mysql_db"
+          >
+            Admin
+          </a>
+        )}
+        {isAdmin != 0 && (
+          <a className="btn btn-primary mx-2" href="Driver_Map.html">
+            Driver Map
+          </a>
+        )}
+        <button className="btn" onClick={home}>
+          Home
+        </button>
+        <div className="flex-none">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </ul>
+        </div>
+      </div>
       <div className="w-full text-center self-center text-4xl">Welcome, {firstname}</div>
 
      

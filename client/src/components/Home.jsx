@@ -230,21 +230,25 @@ const Home = () => {
                     alt={`${prod.ProductName}`}
                   />
                   <div>{prod.ProductName}</div>
-                  <button
-                    onClick={() => {
-                      decItem(item);
-                    }}
-                  >
-                    -
-                  </button>
+                  <div>
+                    {quantity > 0 && (<button
+                      onClick={() => {
+                        decItem(item);
+                      }}
+                    >
+                      -
+                    </button>)}
+                  </div>
                   <div>{quantity}</div>
-                  <button
-                    onClick={() => {
-                      incItem(item);
-                    }}
-                  >
-                    +
-                  </button>
+                  <div>
+                    {quantity <= prod.Quantity && (<button
+                      onClick={() => {
+                        incItem(item);
+                      }}
+                    >
+                      +
+                    </button>)}
+                  </div>
                   {/* <div className="w-1/4 flex flex-row justify-evenly">
                     <button
                       onClick={() => {
