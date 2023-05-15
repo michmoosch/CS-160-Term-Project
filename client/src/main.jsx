@@ -9,7 +9,8 @@ import "./index.css";
 import Profile from "./components/Profile";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // strict mode causing double useState calls (ie. addToCart)
+  //<React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />}>
@@ -21,5 +22,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="checkout" element={<Checkout />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  //</React.StrictMode>
 );

@@ -95,14 +95,14 @@ const Home = () => {
   const incItem = (item) => {
     if (item in cart) {
       setCart((prev) => {
-        const update = prev;
+        const update = {...prev};
         update[item] += 1;
         console.log(update);
         return update;
       });
     } else {
       setCart((prev) => {
-        const update = prev;
+        const update = {...prev};
         update[item] = 1;
         console.log(update);
         return update;
@@ -117,7 +117,7 @@ const Home = () => {
   const decItem = (item) => {
     if (item in cart) {
       setCart((prev) => {
-        const update = prev;
+        const update = {...prev};
         if (!update[item] || update[item] == 0) {
           return;
         }
@@ -142,7 +142,7 @@ const Home = () => {
     const index = e.target.value;
     console.log(products[index]);
     setCart((prev) => {
-      const update = prev;
+      const update = {...prev};
       if (products[index].ProductId in update) {
         update[products[index].ProductId] += 1;
       } else {
