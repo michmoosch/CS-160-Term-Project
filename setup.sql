@@ -1,5 +1,5 @@
 CREATE TABLE `users` (
-  `UserId` int(11) NOT NULL AUTO_INCREMENT,
+  `UserId` int(11) UNIQUE NOT NULL AUTO_INCREMENT,
   `UserPsw` varchar(64) NOT NULL,
   `UserFirstName` varchar(64) NOT NULL,
   `UserLastName` varchar(64) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `products` (
-  `ProductId` int(11) NOT NULL AUTO_INCREMENT,
+  `ProductId` int(11) UNIQUE NOT NULL AUTO_INCREMENT,
   `ProductName` varchar(64) NOT NULL,
   `ProductPrice` decimal(10,2) NOT NULL,
   `Quantity` int(11) UNSIGNED NOT NULL DEFAULT 100,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `orders` (
-  `OrderId` int(11) NOT NULL AUTO_INCREMENT,
+  `OrderId` int(11) UNIQUE NOT NULL AUTO_INCREMENT,
   `UserId` int(11) NOT NULL,
   `OrderDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `OrderTotal` decimal(10,2) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `cart` (
-  `CartId` int(11) NOT NULL AUTO_INCREMENT,
+  `CartId` int(11) UNIQUE NOT NULL AUTO_INCREMENT,
   `ProductId` int(11) NOT NULL UNIQUE,
   `Quantity` int(11) UNSIGNED NOT NULL DEFAULT 1,
   `OrderId` int(11) NOT NULL,

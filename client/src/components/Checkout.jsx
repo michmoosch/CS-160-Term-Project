@@ -15,7 +15,14 @@ const Checkout = () => {
   // console.log(state);
   // const { id, color } = state; // Read values passed on state
 
+  const cookie = parseCookie(document.cookie);
   const navigate = useNavigate();
+  const name = cookie.UserFirstName;
+  const isAdmin = cookie.isAdmin;
+
+  if (!cookie) {
+    navigate("/login");
+  }
 
   useEffect(() => {
     let prods = [];
@@ -139,7 +146,55 @@ const Checkout = () => {
       return 25;
     } else return 0;
   };
+
+  const home = () => {
+    navigate("/home");
+  };
+
+  const logout = (e) => {
+    e.preventDefault();
+    document.cookie = "expires=Thu, 01 Jan 1995 00:00:00 UTC; path=/;";
+    navigate("/login");
+  };
+
+  const profile = () => {
+    navigate("/profile");
+  };
+
   return (
+    <>
+    {/* Navbar */}
+    <div className="navbar bg-info-content">
+        <div className="flex-1 indicator">
+          Welcome, <p className="font-bold ml-1"> {name}</p>
+        </div>
+        {isAdmin != 0 && (
+          <a
+            className="btn btn-primary mx-2"
+            href="http://localhost:8000/?server=mysql_db"
+          >
+            Admin
+          </a>
+        )}
+        {isAdmin != 0 && (
+          <a className="btn btn-primary mx-2" href="Driver_Map.html">
+            Driver Map
+          </a>
+        )}
+        <button className="btn" onClick={home}>
+          Home
+        </button>
+        <button className="btn" onClick={profile}>
+          Profile
+        </button>
+        <div className="flex-none">
+          <ul className="menu menu-horizontal px-1">
+            <li>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </ul>
+        </div>
+      </div>
     <div>
       <div>
         {showCheckout && (
@@ -152,7 +207,7 @@ const Checkout = () => {
               onSubmit={handleCheckout}
             >
               <input
-                type="text"
+                type="numeric"
                 placeholder="CC Number"
                 required
                 className="input mt-3 w-full max-w-xs"
@@ -164,7 +219,7 @@ const Checkout = () => {
                 className="input  mt-3 w-full max-w-xs"
               />
               <input
-                type="text"
+                type="numeric"
                 placeholder="CVV"
                 required
                 className="input w-full mt-3 max-w-xs"
@@ -286,6 +341,7 @@ const Checkout = () => {
         </table>
       </div>
     </div>
+    </>
   );
 };
 

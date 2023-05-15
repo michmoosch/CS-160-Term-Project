@@ -113,6 +113,9 @@ const Profile = () => {
           </ul>
         </div>
       </div>
+
+
+      
       <div className="w-full text-center self-center text-4xl">Welcome, {firstname}</div>
 
      
