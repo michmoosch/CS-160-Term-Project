@@ -1,6 +1,5 @@
 import React from 'react'
 import "./login.css"
-import Signup from './Signup'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
@@ -9,14 +8,12 @@ const Login = () => {
         <h1 className='login-title'>Welcome to Office Suppy Depot</h1>
         <img src={require('../images/logo.png')} className="logo-image"/>
         <form className="login-container">
-          <h1>Login</h1>
-          <label>User Name</label>
-          <input type="text" className="input-field" placeholder='Username or email'/>
-          <label>Password</label>
-          <input type="password" className="input-field" placeholder='Password'/>
-          <a href="" className='forgot-password'>Forgot Password / Username?</a>
-          <input type="submit" value="Login" className='login-submit'/>
-          <p className='register'>Don't Have An Account ? <Link to="/signup"><a href="./Signup.js">Sign Up</a></Link></p>
+            <h1>Login</h1>
+            <input type="text" className="input-field" placeholder='Email'/>
+            <input type="password" className="input-field" placeholder='Password'/>
+            <a href="" className='forgot-password'>Forgot Password / Username?</a>
+            <input type="submit" value="Login" className='submit-input'/>
+            <p className='is-registered'>Don't Have An Account ? <Link className='sign-up-link' to="/signup">Sign Up</Link></p>
         </form>
         
     </div>
